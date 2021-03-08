@@ -8,12 +8,15 @@
     "node": ">=6.13.0"
   },
   "scripts": {
-    "seed": "node database/db.js"
+    "seed": "node database/db.js",
+    "start": "nodemon server/server.js"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "faker": "^5.4.0",
     "mongodb": "^3.6.4",
-    "mongoose": "^5.11.19"
+    "mongoose": "^5.11.19",
+    "nodemon": "^2.0.7"
   },
   "devDependencies": {
     "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor"
