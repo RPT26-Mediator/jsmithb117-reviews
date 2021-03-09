@@ -11,14 +11,14 @@ let reviewSchema = new mongoose.Schema({
   dateJoined: String,
   profilePic: String,
   reviewDescription: String,
-  reviewRating: [{
+  reviewRating: {
       cleanliness: Number,
       communication: Number,
       checkIn: Number,
       accuracy: Number,
       location: Number,
       value: Number
-    }],
+    },
   listingID: String
 });
 
@@ -26,20 +26,20 @@ let Reviews = mongoose.model('Reviews', reviewSchema);
 
 let seedReviewsDB = () => {
   return new Promise((resolve, reject) => {
-    for (let i = 0; i < 100; i++){
+    for (let i = 0; i < 300; i++){
       let newReview = new Reviews({
         userName: faker.name.findName(),
         dateJoined: faker.date.month() + ' 2021',
         profilePic: 'Insert SW url here',
         reviewDescription: faker.lorem.sentences(3),
-        reviewRating: [{
+        reviewRating: {
           cleanliness: faker.finance.amount(2,5,1),
           communication: faker.finance.amount(2,5,1),
           checkIn: faker.finance.amount(2,5,1),
           accuracy: faker.finance.amount(2,5,1),
           location: faker.finance.amount(2,5,1),
           value: faker.finance.amount(2,5,1),
-        }],
+        },
         listingID: faker.random.number(100)
       });
       resolve(Reviews.create(newReview));
@@ -50,7 +50,29 @@ let seedReviewsDB = () => {
 
 let refreshReviewDB = () => {
   return new Promise((resolve, reject) => {
-    resolve(Reviews.deleteMany({}))
+    resolve(Reviews.deleteMany({}));
+    reject('Error with removing old data.')
+  })
+}
+
+let getAllReviews = () => {
+  return new Promise((resolve, reject) => {
+    resolve(Reviews.find({}));
+    reject('Error with removing old data.')
+  })
+}
+
+let getListingTotalReviewCount = (listingID) => {
+  return new Promise((resolve, reject) => {
+    resolve(Reviews.find({}).where('listingID').equals(listingID).countDocuments());
+    reject('Error with removing old data.')
+  })
+}
+
+let getAverageReviewRating = (listingID) => {
+  return new Promise((resolve, reject) => {
+    resolve(Reviews.find({}).where('listingID').equals(listingID))
+    reject('Error with removing old data.')
   })
 }
 
@@ -64,7 +86,8 @@ async function runReviewSeed() {
   }
 }
 
-runReviewSeed()
-// db.reviews.deleteMany({})
+runReviewSeed();
+module.exports = {getAllReviews, getAverageReviewRating, getListingTotalReviewCount};
+
 
 
