@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '../client/dist'));
 
 // this returns all the reviews
-app.get('/', (req, res) => {
+app.get('/reviews', (req, res) => {
   db.getAllReviews().then((reviews) => {
     res.send(reviews)
   }).catch((error) =>{
@@ -20,24 +20,36 @@ app.get('/', (req, res) => {
 
 // this returns all of the reviews for a specific listing
 app.get('/:listingID/reviews', (req, res) => {
-  //console.log(req.body.id)
-  // req.id needs to be passed into getAverageReviewRating
-  db.getListingTotalReviewCount(req.id).then((reviews) => {
-    res.status(200).send((reviews).toString());
-  }).catch ((error) => {
+  db.getListingReviews(req.params.listingID).then((reviews) => {
+    res.send(reviews);
+  }).catch((error) =>{
     console.log(error)
   })
 });
 
-// this returns the number of reviews and the average review rating for a specific listing
-app.get('/:listingID/averageReviewsRating', (req, res) => {
-  // req.id needs to be passed into getAverageReviewRating
-  db.getAverageReviewRating(6).then((results) => {
-    res.send(results)
-  }).catch((error) => {
+app.get('/:listingID/totalReviewCount', (req, res) => {
+  db.getListingTotalReviewCount(req.params.listingID).then((reviews) => {
+    if(reviews < 1) {
+      res.send('No reviews')
+    } else if (reviews === 1) {
+      res.send(reviews + ' review');
+    } else {
+      res.send(reviews + ' reviews');
+    }
+  }).catch((error) =>{
     console.log(error)
   })
-  // res.send('should return this JSON object {average reviews, total number of reviews}')
+});
+
+// calc-ed in accordance to this quora response: https://www.quora.com/How-does-the-Airbnb-Rating-system-work
+app.get('/:listingID/averageReviewsRating', (req, res) => {
+  db.getAverageReviewRating(req.params.listingID).then((ratings) => {
+    let ratingsValue = Object.values(ratings[0]);
+    // had to remove the first element in array as that is the listingID
+    ratingsValue.shift();
+    let averageRating = (ratingsValue.reduce((a,b) => a + b, 0 ))/(ratingsValue.length)
+    res.send({'averageRating': Math.round(averageRating * 100) / 100, 'ratings': ratings});
+  })
 });
 
 app.listen(PORT, () => {

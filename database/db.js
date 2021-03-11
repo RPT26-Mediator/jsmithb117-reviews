@@ -20,25 +20,25 @@ let reviewSchema = new mongoose.Schema({
       value: Number
     },
   listingID: String
-});
+}, { retainKeyOrder: true });
 
 let Reviews = mongoose.model('Reviews', reviewSchema);
 
 let seedReviewsDB = () => {
   return new Promise((resolve, reject) => {
-    for (let i = 0; i < 300; i++){
+    for (let i = 0; i < 100; i++){
       let newReview = new Reviews({
         userName: faker.name.findName(),
         dateJoined: faker.date.month() + ' 2021',
         profilePic: 'Insert SW url here',
         reviewDescription: faker.lorem.sentences(3),
         reviewRating: {
-          cleanliness: faker.finance.amount(2,5,1),
-          communication: faker.finance.amount(2,5,1),
-          checkIn: faker.finance.amount(2,5,1),
-          accuracy: faker.finance.amount(2,5,1),
-          location: faker.finance.amount(2,5,1),
-          value: faker.finance.amount(2,5,1),
+          cleanliness: faker.random.number({min:1, max:5}),
+          communication: faker.random.number({min:1, max:5}),
+          checkIn: faker.random.number({min:1, max:5}),
+          accuracy: faker.random.number({min:1, max:5}),
+          location: faker.random.number({min:1, max:5}),
+          value: faker.random.number({min:1, max:5}),
         },
         listingID: faker.random.number(100)
       });
@@ -57,23 +57,45 @@ let refreshReviewDB = () => {
 
 let getAllReviews = () => {
   return new Promise((resolve, reject) => {
-    resolve(Reviews.find({}));
-    reject('Error with removing old data.')
+    resolve(Reviews.find({}).sort({ "listingID": 1 }));
+    reject('Error with getting all reviews.')
+  })
+}
+
+let getListingReviews = (listingID) => {
+  return new Promise((resolve, reject) => {
+    resolve(Reviews.find({}).where('listingID').equals(listingID));
+    reject('Error with getting this listings reviews.')
   })
 }
 
 let getListingTotalReviewCount = (listingID) => {
   return new Promise((resolve, reject) => {
-    resolve(Reviews.find({}).where('listingID').equals(listingID).countDocuments());
-    reject('Error with removing old data.')
+    resolve(Reviews.find({'listingID' : listingID}).countDocuments());
+    reject('Error with getting total review count.')
   })
 }
 
 let getAverageReviewRating = (listingID) => {
   return new Promise((resolve, reject) => {
-    resolve(Reviews.find({}).where('listingID').equals(listingID))
-    reject('Error with removing old data.')
-  })
+    resolve(
+      Reviews.aggregate(
+        [
+          {$match: {listingID}},
+          {"$group":{
+            "_id":"$listingID",
+            avg_clean:{"$avg" : "$reviewRating.cleanliness"},
+            avg_communication:{"$avg" : "$reviewRating.communication"},
+            avg_checkIn:{"$avg" : "$reviewRating.checkIn"},
+            avg_accuracy:{"$avg" : "$reviewRating.accuracy"},
+            avg_location:{"$avg" : "$reviewRating.location"},
+            avcg_value:{"$avg" : "$reviewRating.value"}
+          }}
+        ]
+    )
+  );
+  reject('Error with getting average rating.')
+  });
 }
 
 async function runReviewSeed() {
@@ -86,8 +108,8 @@ async function runReviewSeed() {
   }
 }
 
-runReviewSeed();
-module.exports = {getAllReviews, getAverageReviewRating, getListingTotalReviewCount};
+// runReviewSeed();
+module.exports = {getAllReviews, getListingReviews, getAverageReviewRating, getListingTotalReviewCount};
 
 
 
