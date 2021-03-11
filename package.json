@@ -9,17 +9,30 @@
   },
   "scripts": {
     "seed": "node database/db.js",
-    "start": "nodemon server/index.js"
+    "start": "nodemon server/index.js",
+    "react-dev": "webpack -d --watch"
   },
   "dependencies": {
+    "@babel/cli": "^7.13.10",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "faker": "^5.4.0",
     "mongodb": "^3.6.4",
     "mongoose": "^5.11.19",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
   },
   "devDependencies": {
-    "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor"
+    "@babel/core": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "@babel/preset-react": "^7.12.13",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^1.0.0",
+    "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
+    "style-loader": "^0.23.0",
+    "webpack": "^4.19.1",
+    "webpack-cli": "^3.1.1",
+    "webpack-dev-server": "^3.1.8"
   }
 }
