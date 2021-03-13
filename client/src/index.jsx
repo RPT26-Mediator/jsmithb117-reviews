@@ -42,7 +42,6 @@ class App extends React.Component {
     });
   }
 
-
   getRatings() {
     let url = window.location.href
     let listingID = url.split('/')[3];

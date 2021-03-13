@@ -45,8 +45,12 @@ app.get('/:listingID/averageReviewsRating', (req, res) => {
   db.getAverageReviewRating(req.params.listingID).then((ratings) => {
     let ratingsValue = Object.values(ratings[0]);
     ratingsValue.shift();
-    ratingsValue.forEach((rating) => rating.toFixed(1))
-    let averageRating = (ratingsValue.reduce((a,b) => a + b, 0 ))/(ratingsValue.length)
+    for(var key in ratings[0]) {
+      if(key !== '_id') {
+        ratings[0][key] = ratings[0][key].toFixed(1)
+      }
+    }
+    let averageRating = (ratingsValue.reduce((a,b) => a + b, 0 ))/(ratingsValue.length);
     res.send({'averageRating': Math.round(averageRating * 100) / 100, 'ratings': ratings});
   })
 });
