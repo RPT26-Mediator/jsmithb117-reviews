@@ -28,7 +28,7 @@ let Reviews = mongoose.model('Reviews', reviewSchema);
 
 let seedReviewsDB = () => {
   return new Promise((resolve, reject) => {
-    for (let i = 0; i < 100; i++){
+    for (let i = 0; i < 500; i++){
       let newReview = new Reviews({
         userName: faker.name.findName(),
         dateJoined: faker.date.month() + ' 2021',
@@ -91,7 +91,7 @@ let getAverageReviewRating = (listingID) => {
             avg_checkIn:{"$avg" : "$reviewRating.checkIn"},
             avg_accuracy:{"$avg" : "$reviewRating.accuracy"},
             avg_location:{"$avg" : "$reviewRating.location"},
-            avcg_value:{"$avg" : "$reviewRating.value"}
+            avg_value:{"$avg" : "$reviewRating.value"}
           }}
         ]
     )
@@ -110,7 +110,7 @@ async function runReviewSeed() {
   }
 }
 
-// runReviewSeed();
+//runReviewSeed();
 module.exports = {getAllReviews, getListingReviews, getAverageReviewRating, getListingTotalReviewCount};
 
 

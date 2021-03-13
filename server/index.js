@@ -6,7 +6,7 @@ const PORT = 3000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static(__dirname + '/../client/dist'));
+app.use('/:listingID', express.static(__dirname + '/../client/dist'));
 
 // this returns all the reviews
 app.get('/reviews', (req, res) => {
@@ -44,8 +44,8 @@ app.get('/:listingID/totalReviewCount', (req, res) => {
 app.get('/:listingID/averageReviewsRating', (req, res) => {
   db.getAverageReviewRating(req.params.listingID).then((ratings) => {
     let ratingsValue = Object.values(ratings[0]);
-    // had to remove the first element in array as that is the listingID
     ratingsValue.shift();
+    ratingsValue.forEach((rating) => rating.toFixed(1))
     let averageRating = (ratingsValue.reduce((a,b) => a + b, 0 ))/(ratingsValue.length)
     res.send({'averageRating': Math.round(averageRating * 100) / 100, 'ratings': ratings});
   })
