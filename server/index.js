@@ -14,6 +14,7 @@ app.get('/reviews', (req, res) => {
     res.send(reviews)
   }).catch((error) =>{
     console.log(error)
+    res.end();
   })
 });
 
@@ -23,6 +24,7 @@ app.get('/:listingID/reviews', (req, res) => {
     res.send(reviews);
   }).catch((error) =>{
     console.log(error)
+    res.end();
   })
 });
 
@@ -37,6 +39,7 @@ app.get('/:listingID/totalReviewCount', (req, res) => {
     }
   }).catch((error) =>{
     console.log(error)
+    res.end();
   })
 });
 
@@ -44,14 +47,11 @@ app.get('/:listingID/totalReviewCount', (req, res) => {
 app.get('/:listingID/averageReviewsRating', (req, res) => {
   db.getAverageReviewRating(req.params.listingID).then((ratings) => {
     let ratingsValue = Object.values(ratings[0]);
-    ratingsValue.shift();
-    for(var key in ratings[0]) {
-      if(key !== '_id') {
-        ratings[0][key] = ratings[0][key].toFixed(1)
-      }
-    }
     let averageRating = (ratingsValue.reduce((a,b) => a + b, 0 ))/(ratingsValue.length);
     res.send({'averageRating': Math.round(averageRating * 100) / 100, 'ratings': ratings});
+  }).catch((error) => {
+    console.log(error)
+    res.end();
   })
 });
 
