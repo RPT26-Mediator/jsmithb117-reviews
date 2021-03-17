@@ -84,7 +84,7 @@ let getAverageReviewRating = (listingID) => {
       Reviews.aggregate(
         [
           {$match: {listingID}},
-          {"$group":{
+          {$group: {
             "_id":"$listingID",
             avg_clean:{"$avg" : "$reviewRating.cleanliness"},
             avg_communication:{"$avg" : "$reviewRating.communication"},
@@ -92,6 +92,15 @@ let getAverageReviewRating = (listingID) => {
             avg_accuracy:{"$avg" : "$reviewRating.accuracy"},
             avg_location:{"$avg" : "$reviewRating.location"},
             avg_value:{"$avg" : "$reviewRating.value"}
+          }},
+          {$project:{
+            _id: 0,
+            rounded_clean:{"$trunc" : ["$avg_clean", 1]},
+            rounded_communication:{"$trunc" : ["$avg_communication", 1]},
+            rounded_checkIn:{"$trunc" : ["$avg_checkIn",1]},
+            rounded_accuracy:{"$trunc" : ["$avg_accuracy",1]},
+            rounded_location:{"$trunc" : ["$avg_location",1]},
+            rounded_value:{"$trunc" : ["$avg_value",1]}
           }}
         ]
     )
