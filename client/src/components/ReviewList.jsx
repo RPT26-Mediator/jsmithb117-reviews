@@ -2,12 +2,15 @@ import React from 'react';
 import Reviews from './Reviews.jsx';
 
 const ReviewList = (props) => (
-  <div>
-    {
-      props.reviews.map((review, index)=>{
+  <div style={{
+    display: "grid",
+    gridTemplateColumns: "repeat(2, 1fr)",
+    gridGap: 10,
+  }}
+    className="reviews">
+    {props.reviews.slice(0, 6).map((review, index)=>{
       return <Reviews reviews={review} key={index} />;
-      })
-    }
+    })}
   </div>
 );
 

@@ -5,9 +5,9 @@ import Reviews from './components/Reviews.jsx';
 import ReviewList from './components/ReviewList.jsx';
 import RatingList from './components/RatingList.jsx';
 import TotalRating from './components/TotalRating.jsx';
+import Modal from "./components/Modal/ReviewModal.jsx";
 import $ from 'jquery';
 import { BrowserRouter } from 'react-router-dom';
-
 
 class App extends React.Component {
   constructor(props) {
@@ -15,7 +15,9 @@ class App extends React.Component {
     this.state = {
       ratings: [],
       reviews: [],
-      avgRating: 0
+      avgRating: 0,
+      showAllReviews: false,
+      hover: false
     }
   }
 
@@ -29,7 +31,7 @@ class App extends React.Component {
     let listingID = url.split('/')[3];
 
     $.ajax({
-      url: `http://localhost:3000/${listingID}/reviews`,
+      url: `http://localhost:3006/${listingID}/reviews`,
       type: 'GET',
       success: (res) => {
         this.setState({
@@ -47,7 +49,7 @@ class App extends React.Component {
     let listingID = url.split('/')[3];
 
     $.ajax({
-      url: `http://localhost:3000/${listingID}/averageReviewsRating`,
+      url: `http://localhost:3006/${listingID}/averageReviewsRating`,
       type: 'GET',
       success: (res) => {
         this.setState({
@@ -61,15 +63,40 @@ class App extends React.Component {
     });
   }
 
+  showModal() {
+    console.log("showing review modal")
+  }
+
+  hoverOverButtonColor(e) {
+    e.target.style.background = '#F8F8F8';
+  }
+
+  noLongerOverButtonColor(e) {
+    e.target.style.background = "white";
+  }
+
+
   render() {
-    return (
-      <div>
-        <TotalRating finalRating={this.state.avgRating} totalReviews={this.state.reviews.length}/>
-        <RatingList rating={this.state.ratings}/>
-        <ReviewList reviews={this.state.reviews}/>
-      </div>
-    );
+      return (
+        <div>
+          <TotalRating
+          finalRating={this.state.avgRating}
+          totalReviews={this.state.reviews.length}/>
+          <RatingList rating={this.state.ratings}/>
+          <ReviewList reviews={this.state.reviews}/>
+          {this.state.reviews.length > 6 ?
+            <Modal
+            show={this.state.showAllReviews}
+            showModal={this.showModal.bind(this)}
+            reviewCount={this.state.reviews.length}
+            onHover={this.hoverOverButtonColor.bind(this)}
+            onLeave={this.noLongerOverButtonColor.bind(this)}
+            />
+            : null}
+        </div>
+      );
+
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('Review'));

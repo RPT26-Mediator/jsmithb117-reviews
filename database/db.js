@@ -28,10 +28,10 @@ let Reviews = mongoose.model('Reviews', reviewSchema);
 
 let seedReviewsDB = () => {
   return new Promise((resolve, reject) => {
-    for (let i = 0; i < 500; i++){
+    for (let i = 0; i < 1000; i++){
       let newReview = new Reviews({
-        userName: faker.name.findName(),
-        dateJoined: faker.date.month() + ' 2021',
+        userName: faker.name.firstName(),
+        dateJoined: faker.date.month() + ' ' + faker.random.number({min:2010, max:2021}),
         profilePic: 'Insert SW url here',
         reviewDescription: faker.lorem.sentences(3),
         reviewRating: {
@@ -119,8 +119,7 @@ async function runReviewSeed() {
   }
 }
 
-//runReviewSeed();
-module.exports = {getAllReviews, getListingReviews, getAverageReviewRating, getListingTotalReviewCount};
+module.exports = {getAllReviews, getListingReviews, getAverageReviewRating, getListingTotalReviewCount, runReviewSeed};
 
 
 
