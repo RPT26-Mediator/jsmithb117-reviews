@@ -8,16 +8,6 @@ db.once('open', function() {
   console.log('connected to db')
 });
 
-let randomProfilePic = () => {
-  $.ajax({
-    url: 'https://randomuser.me/api/',
-    dataType: 'json',
-    success: (data) => {
-      return data.results[0].gender
-    }
-  });
-}
-
 let reviewSchema = new mongoose.Schema({
   userName: String,
   dateJoined: String,
@@ -42,7 +32,7 @@ let seedReviewsDB = () => {
       let newReview = new Reviews({
         userName: faker.name.firstName(),
         dateJoined: faker.date.month() + ' ' + faker.random.number({min:2010, max:2021}),
-        profilePic: 'https://randomuser.me/api/portraits/thumb/men/' + faker.random.number({min:0, max:99}) + '.jpg',
+        profilePic: `https://airbnbpp.s3-us-west-1.amazonaws.com/${faker.random.number({min:0, max:199})}.jpg`,
         reviewDescription: faker.lorem.sentences(3),
         reviewRating: {
           cleanliness: faker.random.number({min:1, max:5}),
