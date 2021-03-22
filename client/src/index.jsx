@@ -8,6 +8,7 @@ import TotalRating from './components/TotalRating.jsx';
 import Modal from "./components/Modal/ReviewModal.jsx";
 import $ from 'jquery';
 import { BrowserRouter } from 'react-router-dom';
+import styled from 'styled-components';
 
 class App extends React.Component {
   constructor(props) {
@@ -78,7 +79,17 @@ class App extends React.Component {
 
   render() {
       return (
-        <div>
+      <div style={{
+        paddingTop: "48px",
+        paddingLeft: "40px",
+        paddingRight: "40px",
+        maxWidth: "1280px",
+        minWidth: "744px",
+        marginLeft: "20%",
+        marginRight: "20%"
+        }}>
+          <div style={{borderTopWidth: "1px", borderTopStyle:"solid", color:"#DDDDDD",paddingBottom: "48px", maxWidth:"1128px"
+        }}></div>
           <TotalRating
           finalRating={this.state.avgRating}
           totalReviews={this.state.reviews.length}/>
@@ -93,9 +104,9 @@ class App extends React.Component {
             onLeave={this.noLongerOverButtonColor.bind(this)}
             />
             : null}
+          <div style={{borderBottomWidth: "1px", borderBottomStyle:"solid", color:"#DDDDDD",paddingTop: "48px"}}></div>
         </div>
       );
-
   }
 }
 

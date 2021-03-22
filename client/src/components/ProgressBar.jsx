@@ -3,7 +3,21 @@ import Rating from './Rating.jsx';
 
 const ProgressBar = (props) => {
   return (
-   <div style={{position:"relative", borderRadius:"50px", border:"1px"}} className='progress-bar'>
+   <div style={{
+    display: "flex",
+    flexDirection: "row",
+    position: "relative",
+    height: "4px",
+    width: "100%",
+    marginTop: "9px",
+    marginRight: "4px",
+    background: "#dddddd"
+   }}>
+     <span style={{
+       width: (props.rating/5) * 100 + "%",
+       background: "black"
+     }}>
+     </span>
    </div>
   );
 };

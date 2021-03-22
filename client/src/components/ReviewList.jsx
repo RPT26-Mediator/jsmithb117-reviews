@@ -6,6 +6,11 @@ const ReviewList = (props) => (
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
     gridGap: 10,
+    minWidth:"950px",
+    maxWidth: "1128px",
+    fontFamily: "Circular, -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif",
+    fontWeight: 400,
+    fontSize: "var(--html-text-font-size, 16)",
   }} className="reviews">
     {props.reviews.slice(0, 6).map((review, index)=>{
       return <Reviews reviews={review} key={index} />;
