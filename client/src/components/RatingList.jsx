@@ -6,13 +6,7 @@ const RatingList = (props) => (
     gridGap: 10,
     marginBottom:"24px",
     minWidth:"950px",
-    maxWidth: "1128px",
-    display: "block",
-    color: "#222222",
-    fontWeight: 400,
-    fontSize: "16px",
-    lineHeight: "20px",
-    fontFamily: "Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif",
+    maxWidth: "1128px"
     }}>
     {
       props.rating.map((rating, index)=>{

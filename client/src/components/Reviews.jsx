@@ -1,5 +1,31 @@
 import React from 'react';
 import ReviewList from './ReviewList.jsx';
+import styled from 'styled-components';
+
+const ReviewerNameStyle = styled.div`
+  color: rgb(34, 34, 34);
+  font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+`
+const ReviewerJoinedDateStyle = styled.div `
+  color: rgb(113, 113, 113);
+  font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+`
+
+const ReviewerDescriptionStyle = styled.div `
+  color: var(--html-text-color, #222222);
+  font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  word-break: break-word;
+  padding-right: 19%
+`
 
 const Reviews = (props) => (
   <div style={{
@@ -19,36 +45,17 @@ const Reviews = (props) => (
           position:"absolute",
           paddingTop:"10px",
           paddingLeft:"10px"}}>
-          <div style={{
-            fontFamily: "Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif !important",
-            fontWeight: 600,
-            fontSize: "16px",
-            lineHeight: "20px"
-            }}>
+          <ReviewerNameStyle>
             {props.reviews.userName}
-          </div>
-          <div style={{
-            fontFamily:"Circular, -apple-system, BlinkMacSystemFont, Roboto, ;'Helvetica Neue', sans-serif !important",
-            color: "#717171",
-            fontSize: "14px",
-            fontWeight: 400,
-            lineHeight: "20px"
-            }}>
+          </ReviewerNameStyle>
+          <ReviewerJoinedDateStyle>
           {props.reviews.dateJoined}
-          </div>
+          </ReviewerJoinedDateStyle>
         </div>
       </div>
-    <div style={{
-      color:"#222222",
-      fontFamily:"Circular, -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif",
-      fontWeight: 400,
-      fontSize: "16px",
-      wordBreak:"break-word",
-      paddingRight: "20%",
-      lineHeight: '24px'
-    }}>
+    <ReviewerDescriptionStyle>
       {props.reviews.reviewDescription}
-    </div>
+    </ReviewerDescriptionStyle>
   </div>
 );
 
