@@ -6,6 +6,7 @@ const ReviewList = (props) => (
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
     gridGap: 10,
+    gridColumnGap: 60,
     minWidth:"950px",
     maxWidth: "1128px",
     fontFamily: "Circular, -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif",

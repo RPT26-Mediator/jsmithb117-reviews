@@ -66,6 +66,7 @@ class App extends React.Component {
 
   showModal() {
     console.log("showing review modal")
+
   }
 
   hoverOverButtonColor(e) {

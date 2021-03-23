@@ -13,7 +13,7 @@ const TotalRating = (props) => (
     lineHeight:"26px"
     }}>
       <StarIcon />
-      {props.finalRating + ' (' + props.totalReviews + ' reviews)'}
+      {props.finalRating.toFixed(2) + ' (' + props.totalReviews + ' reviews)'}
   </div>
 );
 

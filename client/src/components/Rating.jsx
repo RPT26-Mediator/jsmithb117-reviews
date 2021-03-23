@@ -3,12 +3,11 @@ import RatingList from './RatingList.jsx';
 import ProgressBar from './ProgressBar.jsx';
 import styled from 'styled-components';
 
-
 const StyledRating = styled.div`
   color: "black";
   font-family: "Circular, -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif";
   font-weight: 600 !important;
-  font-size: 14px !important;
+  font-size: 13px !important;
   line-height: 16px !important;
   margin-left: 6px !important;
 `;
@@ -27,6 +26,7 @@ const Rating = (props) => (
     display: "grid",
     gridTemplateColumns: "repeat(6, 1fr)",
     gridGap: "16px",
+    gridColumnGap: 60,
     paddingBottom: '32px',
     fontFamily: 'Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif !important',
     fontWeight: 400,
