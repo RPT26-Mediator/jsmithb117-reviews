@@ -12,7 +12,7 @@ const ProgressBar = (props) => {
     marginTop: "9px",
     marginRight: "4px",
     background: "#dddddd",
-    marginLeft: "45%"
+    marginLeft: "40%"
    }}>
      <span style={{
        width: (props.rating/5) * 100 + "%",
