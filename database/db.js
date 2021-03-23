@@ -35,12 +35,12 @@ let seedReviewsDB = () => {
         profilePic: `https://airbnbpp.s3-us-west-1.amazonaws.com/${faker.random.number({min:0, max:199})}.jpg`,
         reviewDescription: faker.lorem.sentences(3),
         reviewRating: {
-          cleanliness: faker.random.number({min:1, max:5}),
-          communication: faker.random.number({min:1, max:5}),
-          checkIn: faker.random.number({min:1, max:5}),
-          accuracy: faker.random.number({min:1, max:5}),
-          location: faker.random.number({min:1, max:5}),
-          value: faker.random.number({min:1, max:5}),
+          cleanliness: faker.random.number({min:4, max:5}),
+          communication: faker.random.number({min:4, max:5}),
+          checkIn: faker.random.number({min:4, max:5}),
+          accuracy: faker.random.number({min:4, max:5}),
+          location: faker.random.number({min:4, max:5}),
+          value: faker.random.number({min:4, max:5}),
         },
         listingID: faker.random.number(100)
       });
