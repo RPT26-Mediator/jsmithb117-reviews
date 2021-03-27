@@ -30,7 +30,7 @@ const Rating = (props) => (
     paddingBottom: '32px',
     fontFamily: 'Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif !important',
     fontWeight: 400,
-    width: "100%"
+    width: "100%",
     }} className="ratings">
     <StyledRatingOption>{'Cleanliness '}</StyledRatingOption>
     <ProgressBar rating={props.rating.ratings[0].rounded_clean.toFixed(1)}/>
