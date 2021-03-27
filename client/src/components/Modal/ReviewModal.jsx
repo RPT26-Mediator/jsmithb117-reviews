@@ -1,39 +1,71 @@
 import React from "react";
 import styled from 'styled-components';
+import StarIcon from '../StarIcon.jsx';
+import Rating from '../Rating.jsx';
+import RatingList from '../RatingList.jsx';
+import Reviews from '../Reviews.jsx';
+import ReviewList from '../ReviewList.jsx'
 
-const ShowAllReviewsButton = styled.button `
+
+const ModalContainer = styled.div `
+  position: fixed;
+  z-index: 2000;
+  inset: 0px;
+  overflow: hidden;
+  background: rgb(0 0 0 / 28%);
+  transition: 'max-width 0.5s, opacity 0.2s'
+`
+const Modal = styled.div `
+  position: fixed;
+  top: 5%;
+  left: 22%;
+  right: 22%;
+  bottom: 5%;
+  width: auto;
+  height: auto;
+  border-radius: 12px;
+  background: white;
+  overflow: hidden;
+  transition: max-width 0.5s, opacity 0.2s
+`
+const CloseModalButton = styled.div `
+  height: 16px;
+  width: 16px;
+  margin-left: 15px;
+  margin-top: 15px;
   cursor: pointer !important;
-  display: inline-block !important;
-  margin: 0px !important;
-  position: relative !important;
-  text-align: center !important;
-  text-decoration: none !important;
-  width: auto !important;
   touch-action: manipulation !important;
-  font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif !important;
-  font-size: 16px !important;
-  line-height: 20px !important;
-  font-weight: 600 !important;
-  border-radius: 8px !important;
-  border-width: 1px !important;
-  border-style: solid !important;
-  outline: none !important;
-  padding: 13px 23px !important;
-  transition: box-shadow 0.2s ease 0s, -ms-transform 0.1s ease 0s, -webkit-transform 0.1s ease 0s, transform 0.1s ease 0s !important;
-  border-color: rgb(34, 34, 34) !important;
-  background: rgb(255, 255, 255);
-  color: rgb(34, 34, 34) !important;
-`;
-
+  position: relative !important;
+`
+const StarIconStyle = styled.div `
+  display: block;
+  height: 100px;
+  width: 100px;
+  margin-right: 8px !important;
+  display: inline-flex !important;
+`
 const ReviewModal = (props) => (
-  <div style={{paddingTop: '32px'}}>
-    <ShowAllReviewsButton
-    onMouseEnter={props.onHover}
-    onMouseLeave={props.onLeave}
-    onClick={props.showModal}>
-      Show all {props.reviewCount} reviews
-    </ShowAllReviewsButton>
-  </div>
+  <ModalContainer onClick={props.closeModal}>
+    <Modal onClick={(e) => e.stopPropagation()}>
+      <div>
+        <div>
+        <CloseModalButton onClick={props.closeModal}>X</CloseModalButton>
+        </div>
+        <StarIconStyle>
+        <StarIcon />
+        </StarIconStyle>
+        <div>
+        {props.finalRating.toFixed(2) + ' (' + props.totalReviews + ' reviews)'}
+        </div>
+        <div>
+        {props.ratingList}
+        </div>
+        <div>
+        {props.reviewList}
+      </div>
+      </div>
+    </Modal>
+  </ModalContainer>
 );
 
 export default ReviewModal
