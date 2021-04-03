@@ -65,22 +65,25 @@ class App extends React.Component {
   }
 
   showModal() {
-    if(!this.state.showAllReviews) {
-      console.log("showing review modal");
-      this.setState({
-        showAllReviews: true
-      })
-      document.body.style.overflow = 'hidden';
-    } else {
-      console.log("closing review modal");
+    if(this.state.showAllReviews) {
+      console.log("closing review modal " + this.state.showAllReviews);
       this.setState({
         showAllReviews: false
       })
       document.body.style.overflow = 'scroll';
+    } else {
+      console.log("showing review modal " + this.state.showAllReviews);
+      // collapse modal
+      this.setState({
+        showAllReviews: true
+      })
+      document.body.style.overflow = 'hidden';
     }
   }
 
-
+  closeModal() {
+    // need to do the slide down animation here
+  }
 
   hoverOverButtonColor(e) {
     e.target.style.background = '#F8F8F8';
@@ -93,7 +96,8 @@ class App extends React.Component {
 
   render() {
       return (
-      <div style={{
+      <div className="App" style={{
+        height: "100%",
         paddingTop: "48px",
         paddingLeft: "40px",
         paddingRight: "40px",
@@ -102,32 +106,27 @@ class App extends React.Component {
         marginLeft: "20%",
         marginRight: "10%"
         }}>
-          <div style={{borderTopWidth: "1px", borderTopStyle:"solid", color:"#DDDDDD",paddingBottom: "48px", maxWidth:"1128px"
-        }}></div>
-          <TotalRating
-          finalRating={this.state.avgRating}
-          totalReviews={this.state.reviews.length}/>
+          <div style={{borderTopWidth: "1px", borderTopStyle:"solid", color:"#DDDDDD",paddingBottom: "48px", maxWidth:"1128px"}}></div>
+          <TotalRating finalRating={this.state.avgRating.toFixed(2)} totalReviews={this.state.reviews.length}/>
           <RatingList rating={this.state.ratings}/>
           <ReviewList reviews={this.state.reviews}/>
           {this.state.reviews.length > 6 ?
            <div style={{paddingTop: '32px'}}>
-           <ShowAllReviewsButton
-           onMouseEnter={this.hoverOverButtonColor.bind(this)}
-           onMouseLeave={this.noLongerOverButtonColor.bind(this)}
-           onClick={this.showModal.bind(this)} style={{textDecoration:'underline',color:'blue',cursor:'pointer'}}>
-             Show all {this.state.reviews.length} reviews
+            <ShowAllReviewsButton
+            onMouseEnter={this.hoverOverButtonColor.bind(this)}
+            onMouseLeave={this.noLongerOverButtonColor.bind(this)}
+            onClick={this.showModal.bind(this)} style={{textDecoration:'underline',color:'blue',cursor:'pointer'}}>
+              Show all {this.state.reviews.length} reviews
            </ShowAllReviewsButton>
-         </div> : null}
+           </div> : null}
           {this.state.showAllReviews ?
-          <ReviewModal
-          showingModal={this.state.showAllReviews}
-          finalRating={this.state.avgRating}
-          totalReviews={this.state.reviews.length}
-          closeModal={this.showModal.bind(this)}
-          ratingList={<RatingList rating={this.state.ratings}/>}
-          reviewList={<ReviewList reviews={this.state.reviews}/>}
-          />
-          : null}
+            <ReviewModal
+            rating={this.state.ratings}
+            showingModal={this.state.showAllReviews}
+            finalRating={this.state.avgRating}
+            totalReviews={this.state.reviews.length}
+            closeModal={this.showModal.bind(this)}/>
+            : null}
           <div style={{borderBottomWidth: "1px", borderBottomStyle:"solid", color:"#DDDDDD",paddingTop: "48px"}}></div>
         </div>
       );
