@@ -69,8 +69,9 @@ const StyledRatingOption = styled.div`
   width: 100%;
 `;
 
-const AllReviews =styled.div `
+const AllReviews = styled.div `
   margin-left: auto%;
+  overflow-y: scroll;
 `
 
 
@@ -108,7 +109,7 @@ const ReviewModal = (props) => (
               <input
                 style={{
                   width: "600px",
-                  marginLeft: "20%"
+                  marginLeft: "23%"
                 }}
                 type="text"
                 placeholder="Search reviews"/>
@@ -147,7 +148,7 @@ const ReviewModal = (props) => (
           </div>
           <AllReviews>
             {/* {console.log(props.reviewsList)} */}
-            {console.log(props.reviewsList[0].dateJoined, props.reviewsList[0].userName, props.reviewsList[0].reviewDescription)}
+            {/* {console.log(props.reviewsList[0].dateJoined, props.reviewsList[0].userName, props.reviewsList[0].reviewDescription)} */}
             <div>
               {props.reviewsList.map((review, index)=>{
                 return <Reviews reviews={review} key={index} />;
