@@ -58,6 +58,7 @@ const ReviewModal = (props) => (
         <CloseModalButton onClick={props.closeModal}>X</CloseModalButton>
         </div>
         <h2 style={{display:"inline-flex"}}>
+          {/* Star */}
           <svg
             viewBox="0 0 32 32"
             fill="#FF385C"
@@ -70,9 +71,11 @@ const ReviewModal = (props) => (
               <path strokeLinecap="butt" strokeLinejoin="butt" strokeWidth={0} d="M15.094 1.579l-4.124 8.885-9.86 1.27a1 1 0 0 0-.542 1.736l7.293 6.565-1.965 9.852a1 1 0 0 0 1.483 1.061L16 25.951l8.625 4.997a1 1 0 0 0 1.482-1.06l-1.965-9.853 7.293-6.565a1 1 0 0 0-.541-1.735l-9.86-1.271-4.127-8.885a1 1 0 0 0-1.814 0z" />
             </svg>
             <div style={{marginRight: "8px"}}>
+              {/* Rating */}
             {props.finalRating}
             {' (' + props.totalReviews + ' Reviews)'}
             </div>
+            {/* searchBar */}
             <div>
             <input
               style={{
@@ -80,11 +83,12 @@ const ReviewModal = (props) => (
                 margin: "auto"
               }}
               type="text"
-              placeholder="Search reviews"
-            />
+              placeholder="Search reviews"/>
             </div>
         </h2>
         <div>
+          {/* map the ratings */}
+        {console.log(props.rating)}
         ratings
         </div>
         <div>

@@ -103,7 +103,7 @@ class App extends React.Component {
         paddingRight: "40px",
         maxWidth: "1280px",
         minWidth: "744px",
-        marginLeft: "20%",
+        marginLeft: "10%",
         marginRight: "10%"
         }}>
           <div style={{borderTopWidth: "1px", borderTopStyle:"solid", color:"#DDDDDD",paddingBottom: "48px", maxWidth:"1128px"}}></div>
