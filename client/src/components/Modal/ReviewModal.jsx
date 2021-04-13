@@ -33,8 +33,7 @@ const Modal = styled.div `
   max-width: 1032px;
   border-radius: 12px;
   background: white;
-  overflow: hidden;
-  overflow-y: scroll;
+  overflow: auto;
   animation-name: ${props => props.showingModal ? slideDownAnimation : slideUpAnimation};
   animation-duration: 400ms;
   animation-iteration-count: 1;
@@ -69,9 +68,7 @@ const StyledRatingOption = styled.div`
   width: 100%;
 `;
 
-const AllReviews = styled.div `
-  margin-left: auto%;
-  overflow-y: scroll;
+const SearchBar = styled.div `
 `
 
 
@@ -101,15 +98,20 @@ const ReviewModal = (props) => (
             </svg>
             <div>
             {/* Average Rating */}
-            {props.finalRating.toFixed(2)}
-            {' (' + props.totalReviews + ' Reviews)'}
+              {props.finalRating.toFixed(2)}
+              {' (' + props.totalReviews + ' Reviews)'}
             </div>
             {/* SearchBar */}
-            <div>
+            <div style={{boxShadow:'none'}}>
               <input
                 style={{
-                  width: "600px",
-                  marginLeft: "23%"
+                  width: "550px",
+                  height: "40px",
+                  marginLeft: "23%",
+                  paddingLeft: "15px",
+                  borderRadius: "25px",
+                  border: '1px solid black',
+                  outline: "none",
                 }}
                 type="text"
                 placeholder="Search reviews"/>
@@ -125,7 +127,7 @@ const ReviewModal = (props) => (
             fontWeight: 400,
             width: "100%",
             marginLeft: "2%",
-            maxHeight: "10px"
+            maxHeight: "10px",
             }} className="ratings">
             <StyledRatingOption>{'Cleanliness '}</StyledRatingOption>
             <ProgressBar rating={props.rating[0].ratings[0].rounded_clean.toFixed(1)}/>
@@ -146,7 +148,7 @@ const ReviewModal = (props) => (
             <ProgressBar rating={props.rating[0].ratings[0].rounded_value.toFixed(1)}/>
             <StyledRating>{props.rating[0].ratings[0].rounded_value.toFixed(1)}</StyledRating>
           </div>
-          <AllReviews>
+          <div>
             {/* {console.log(props.reviewsList)} */}
             {/* {console.log(props.reviewsList[0].dateJoined, props.reviewsList[0].userName, props.reviewsList[0].reviewDescription)} */}
             <div>
@@ -154,7 +156,7 @@ const ReviewModal = (props) => (
                 return <Reviews reviews={review} key={index} />;
               })}
             </div>
-          </AllReviews>
+          </div>
         </div>
       </div>
     </Modal>
