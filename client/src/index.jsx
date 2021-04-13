@@ -125,6 +125,7 @@ class App extends React.Component {
             showingModal={this.state.showAllReviews}
             finalRating={this.state.avgRating}
             totalReviews={this.state.reviews.length}
+            reviewsList={this.state.reviews}
             closeModal={this.showModal.bind(this)}/>
             : null}
           <div style={{borderBottomWidth: "1px", borderBottomStyle:"solid", color:"#DDDDDD",paddingTop: "48px"}}></div>

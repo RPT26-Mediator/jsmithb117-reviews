@@ -28,9 +28,7 @@ const ReviewerDescriptionStyle = styled.div `
 `
 
 const Reviews = (props) => (
-  <div style={{
-    paddingBottom:"30px"
-    }}>
+  <div style={{paddingBottom:"30px"}}>
       <div style={{paddingBottom:"10px"}}>
         <img style={{
           borderRadius: "56%",
