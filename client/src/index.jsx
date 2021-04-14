@@ -20,7 +20,8 @@ class App extends React.Component {
       showAllReviews: false,
       hover: false,
       searchTerm: '',
-      modalReviews: []
+      searchContainer: [],
+      modalFilteredReviews: []
     }
   }
 
@@ -39,7 +40,7 @@ class App extends React.Component {
       success: (res) => {
         this.setState({
           reviews: res,
-          modalReviews: res
+          modalFilteredReviews: res
         })
       },
       error: (err)=>{
@@ -69,17 +70,17 @@ class App extends React.Component {
 
   showModal() {
     if(this.state.showAllReviews) {
-      console.log("closing review modal " + this.state.showAllReviews);
+      // console.log("closing review modal " + this.state.showAllReviews);
       this.setState({
         showAllReviews: false
       })
       document.body.style.overflow = 'scroll';
     } else {
-      console.log("showing review modal " + this.state.showAllReviews);
+      // console.log("showing review modal " + this.state.showAllReviews);
       // collapse modal
       this.setState({
         showAllReviews: true,
-        modalReviews: this.state.reviews
+        modalFilteredReviews: this.state.reviews
       })
       document.body.style.overflow = 'hidden';
     }
@@ -95,7 +96,8 @@ class App extends React.Component {
 
   handleKeyDown(e) {
     if(e.key === 'Enter') {
-      this.dynamicSearch();
+      this.dynamicSearch()
+      this.state.searchContainer.push(this.state.searchTerm)
     }
   }
 
@@ -107,7 +109,7 @@ class App extends React.Component {
 
   dynamicSearch() {
     this.setState({
-      modalReviews: this.state.reviews.filter(review => review.reviewDescription.toLowerCase().includes(this.state.searchTerm.toLowerCase()))
+      modalFilteredReviews: this.state.reviews.filter(review => review.reviewDescription.toLowerCase().includes(this.state.searchTerm.toLowerCase()))
     })
   }
 
@@ -146,8 +148,9 @@ class App extends React.Component {
             closeModal={this.showModal.bind(this)}
             handleKeyDown={this.handleKeyDown.bind(this)}
             searchTerm={this.state.searchTerm}
+            searchTermDisplay={this.state.searchContainer}
             searchInput={this.editSearch.bind(this)}
-            filteredSearch={this.state.modalReviews}/>
+            filteredSearch={this.state.modalFilteredReviews}/>
             : null}
           <div style={{borderBottomWidth: "1px", borderBottomStyle:"solid", color:"#DDDDDD",paddingTop: "48px"}}></div>
         </div>

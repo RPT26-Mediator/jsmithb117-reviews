@@ -103,7 +103,7 @@ const ReviewModal = (props) => (
                 <span style={{
                   width: "20%"
                 }}>
-                {'There are no results for ‘' + props.searchTerm + '’'}
+                {'There are no results for ‘' + props.searchTermDisplay[props.searchTermDisplay.length-1] + '’'}
                 </span>
               }
             </div>
