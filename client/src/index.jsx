@@ -18,7 +18,10 @@ class App extends React.Component {
       reviews: [],
       avgRating: 0,
       showAllReviews: false,
-      hover: false
+      hover: false,
+      searchTerm: '',
+      searchContainer: [],
+      modalFilteredReviews: []
     }
   }
 
@@ -36,7 +39,8 @@ class App extends React.Component {
       type: 'GET',
       success: (res) => {
         this.setState({
-          reviews: res
+          reviews: res,
+          modalFilteredReviews: res
         })
       },
       error: (err)=>{
@@ -66,23 +70,20 @@ class App extends React.Component {
 
   showModal() {
     if(this.state.showAllReviews) {
-      console.log("closing review modal " + this.state.showAllReviews);
+      // console.log("closing review modal " + this.state.showAllReviews);
       this.setState({
         showAllReviews: false
       })
       document.body.style.overflow = 'scroll';
     } else {
-      console.log("showing review modal " + this.state.showAllReviews);
+      // console.log("showing review modal " + this.state.showAllReviews);
       // collapse modal
       this.setState({
-        showAllReviews: true
+        showAllReviews: true,
+        modalFilteredReviews: this.state.reviews
       })
       document.body.style.overflow = 'hidden';
     }
-  }
-
-  closeModal() {
-    // need to do the slide down animation here
   }
 
   hoverOverButtonColor(e) {
@@ -93,6 +94,24 @@ class App extends React.Component {
     e.target.style.background = "white";
   }
 
+  handleKeyDown(e) {
+    if(e.key === 'Enter') {
+      this.dynamicSearch()
+      this.state.searchContainer.push(this.state.searchTerm)
+    }
+  }
+
+  editSearch(e) {
+    this.setState({
+      searchTerm: e.target.value
+    })
+  }
+
+  dynamicSearch() {
+    this.setState({
+      modalFilteredReviews: this.state.reviews.filter(review => review.reviewDescription.toLowerCase().includes(this.state.searchTerm.toLowerCase()))
+    })
+  }
 
   render() {
       return (
@@ -125,7 +144,13 @@ class App extends React.Component {
             showingModal={this.state.showAllReviews}
             finalRating={this.state.avgRating}
             totalReviews={this.state.reviews.length}
-            closeModal={this.showModal.bind(this)}/>
+            reviewsList={this.state.reviews}
+            closeModal={this.showModal.bind(this)}
+            handleKeyDown={this.handleKeyDown.bind(this)}
+            searchTerm={this.state.searchTerm}
+            searchTermDisplay={this.state.searchContainer}
+            searchInput={this.editSearch.bind(this)}
+            filteredSearch={this.state.modalFilteredReviews}/>
             : null}
           <div style={{borderBottomWidth: "1px", borderBottomStyle:"solid", color:"#DDDDDD",paddingTop: "48px"}}></div>
         </div>
