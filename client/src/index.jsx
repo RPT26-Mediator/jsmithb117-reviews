@@ -18,7 +18,9 @@ class App extends React.Component {
       reviews: [],
       avgRating: 0,
       showAllReviews: false,
-      hover: false
+      hover: false,
+      searchTerm: '',
+      modalReviews: []
     }
   }
 
@@ -36,7 +38,8 @@ class App extends React.Component {
       type: 'GET',
       success: (res) => {
         this.setState({
-          reviews: res
+          reviews: res,
+          modalReviews: res
         })
       },
       error: (err)=>{
@@ -75,14 +78,11 @@ class App extends React.Component {
       console.log("showing review modal " + this.state.showAllReviews);
       // collapse modal
       this.setState({
-        showAllReviews: true
+        showAllReviews: true,
+        modalReviews: this.state.reviews
       })
       document.body.style.overflow = 'hidden';
     }
-  }
-
-  closeModal() {
-    // need to do the slide down animation here
   }
 
   hoverOverButtonColor(e) {
@@ -93,6 +93,23 @@ class App extends React.Component {
     e.target.style.background = "white";
   }
 
+  handleKeyDown(e) {
+    if(e.key === 'Enter') {
+      this.dynamicSearch();
+    }
+  }
+
+  editSearch(e) {
+    this.setState({
+      searchTerm: e.target.value
+    })
+  }
+
+  dynamicSearch() {
+    this.setState({
+      modalReviews: this.state.reviews.filter(review => review.reviewDescription.toLowerCase().includes(this.state.searchTerm.toLowerCase()))
+    })
+  }
 
   render() {
       return (
@@ -126,7 +143,11 @@ class App extends React.Component {
             finalRating={this.state.avgRating}
             totalReviews={this.state.reviews.length}
             reviewsList={this.state.reviews}
-            closeModal={this.showModal.bind(this)}/>
+            closeModal={this.showModal.bind(this)}
+            handleKeyDown={this.handleKeyDown.bind(this)}
+            searchTerm={this.state.searchTerm}
+            searchInput={this.editSearch.bind(this)}
+            filteredSearch={this.state.modalReviews}/>
             : null}
           <div style={{borderBottomWidth: "1px", borderBottomStyle:"solid", color:"#DDDDDD",paddingTop: "48px"}}></div>
         </div>
