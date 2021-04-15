@@ -3,9 +3,11 @@ const bodyParser = require('body-parser');
 const compression = require('compression');
 const db = require('../database/db.js');
 const PORT = 3006;
+const cors = require('cors');
 
 const app = express();
 
+app.use(cors());
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
