@@ -125,7 +125,7 @@ class App extends React.Component {
         marginLeft: "10%",
         marginRight: "10%"
         }}>
-          <div style={{borderTopWidth: "1px", borderTopStyle:"solid", color:"#DDDDDD",paddingBottom: "48px", maxWidth:"1128px"}}></div>
+          <div style={{borderBottomWidth: "1px", borderBottomStyle:"solid", color:"#DDDDDD",paddingTop: "48px"}}></div>
           <TotalRating finalRating={this.state.avgRating.toFixed(2)} totalReviews={this.state.reviews.length}/>
           <RatingList rating={this.state.ratings}/>
           <ReviewList reviews={this.state.reviews}/>
