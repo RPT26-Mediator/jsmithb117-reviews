@@ -46,7 +46,6 @@ const ReviewerJoinedDateStyle = styled.div `
   font-size: 14px;
   line-height: 20px;
 `
-
 const ReviewerDescriptionStyle = styled.div `
   color: var(--html-text-color, #222222);
   font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;

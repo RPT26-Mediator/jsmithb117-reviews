@@ -3,24 +3,6 @@ import RatingList from './RatingList.jsx';
 import ProgressBar from './ProgressBar.jsx';
 import styled from 'styled-components';
 
-const StyledRating = styled.div`
-  color: "black";
-  font-family: "Circular, -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif";
-  font-weight: 600 !important;
-  font-size: 13px !important;
-  line-height: 16px !important;
-  margin-left: 6px !important;
-`;
-
-const StyledRatingOption = styled.div`
-  color: "black";
-  font-family: "Circular, -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif";
-  font-weight: 400 !important;
-  font-size: 16px !important;
-  line-height: 20px !important;
-  width: 100%;
-`;
-
 const Rating = (props) => (
   <div style={{
     display: "grid",
@@ -52,5 +34,23 @@ const Rating = (props) => (
     <StyledRating>{props.rating.ratings[0].rounded_value.toFixed(1)}</StyledRating>
   </div>
 );
+
+const StyledRating = styled.div`
+  color: "black";
+  font-family: "Circular, -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif";
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  line-height: 16px !important;
+  margin-left: 6px !important;
+`;
+
+const StyledRatingOption = styled.div`
+  color: "black";
+  font-family: "Circular, -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif";
+  font-weight: 400 !important;
+  font-size: 16px !important;
+  line-height: 20px !important;
+  width: 100%;
+`;
 
 export default Rating;
