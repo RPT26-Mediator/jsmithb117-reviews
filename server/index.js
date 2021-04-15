@@ -1,9 +1,12 @@
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
+const compression = require('compression');
 const db = require('../database/db.js');
 const PORT = 3006;
 
+const app = express();
+
+app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use('/:listingID', express.static(__dirname + '/../client/dist'));
