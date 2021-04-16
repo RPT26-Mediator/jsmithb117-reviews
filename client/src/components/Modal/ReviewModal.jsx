@@ -160,19 +160,19 @@ const CloseModalButton = styled.div `
 const StyledRating = styled.div`
   color: "black";
   font-family: "Circular, -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif";
-  font-weight: 600 !important;
-  font-size: 13px !important;
-  line-height: 16px !important;
-  margin-left: 70px !important;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 16px;
+  margin-left: 70px;
 `;
 
 const StyledRatingOption = styled.div`
   color: "black";
   font-family: "Circular, -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif";
-  font-weight: 400 !important;
-  font-size: 16px !important;
-  line-height: 20px !important;
-  margin-left: 20px !important;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  margin-left: 20px;
   width: 100%;
 `;
 

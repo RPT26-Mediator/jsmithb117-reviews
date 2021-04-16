@@ -10,7 +10,7 @@ const Rating = (props) => (
     gridGap: "16px",
     gridColumnGap: 60,
     paddingBottom: '32px',
-    fontFamily: 'Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif !important',
+    fontFamily: 'Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif',
     fontWeight: 400,
     width: "100%",
     }} className="ratings">
@@ -38,18 +38,18 @@ const Rating = (props) => (
 const StyledRating = styled.div`
   color: "black";
   font-family: "Circular, -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif";
-  font-weight: 600 !important;
-  font-size: 13px !important;
-  line-height: 16px !important;
-  margin-left: 6px !important;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 16px;
+  margin-left: 6px;
 `;
 
 const StyledRatingOption = styled.div`
   color: "black";
   font-family: "Circular, -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif";
-  font-weight: 400 !important;
-  font-size: 16px !important;
-  line-height: 20px !important;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
   width: 100%;
 `;
 
