@@ -158,26 +158,26 @@ class App extends React.Component {
 }
 
 const ShowAllReviewsButton = styled.button `
-  cursor: pointer !important;
-  display: inline-block !important;
-  margin: 0px !important;
-  position: relative !important;
-  text-align: center !important;
-  text-decoration: none !important;
-  width: auto !important;
-  touch-action: manipulation !important;
-  font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif !important;
-  font-size: 16px !important;
-  line-height: 20px !important;
-  font-weight: 600 !important;
-  border-radius: 8px !important;
-  border-width: 1px !important;
-  border-style: solid !important;
-  outline: none !important;
-  padding: 13px 23px !important;
-  border-color: rgb(34, 34, 34) !important;
+  cursor: pointer;
+  display: inline-block;
+  margin: 0px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  width: auto;
+  touch-action: manipulation;
+  font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  border-radius: 8px;
+  border-width: 1px;
+  border-style: solid;
+  outline: none;
+  padding: 13px 23px;
+  border-color: rgb(34, 34, 34);
   background: rgb(255, 255, 255);
-  color: rgb(34, 34, 34) !important;
+  color: rgb(34, 34, 34);
 `;
 
 ReactDOM.render(<App />, document.getElementById('Review'));
