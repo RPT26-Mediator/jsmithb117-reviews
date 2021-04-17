@@ -100,7 +100,7 @@ const ReviewModal = (props) => (
             <div>
               {props.filteredSearch.length !== 0 ?
                 props.filteredSearch.map((review, index)=>{
-                return <Reviews reviews={review} key={index} />;
+                return <Reviews reviews={review} key={index}/>;
                 }) :
                 <span style={{
                   width: "20%"
@@ -179,5 +179,6 @@ const StyledRatingOption = styled.div`
 const AllReviews = styled.div `
   width: 100%;
 `
+
 
 export default ReviewModal
