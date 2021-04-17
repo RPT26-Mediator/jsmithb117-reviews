@@ -133,7 +133,7 @@ class App extends React.Component {
             <ShowAllReviewsButton
             onMouseEnter={this.hoverOverButtonColor.bind(this)}
             onMouseLeave={this.noLongerOverButtonColor.bind(this)}
-            onClick={this.showModal.bind(this)} style={{textDecoration:'underline',color:'blue',cursor:'pointer'}}>
+            onClick={this.showModal.bind(this)} style={{color:'black',cursor:'pointer'}}>
               Show all {this.state.reviews.length} reviews
            </ShowAllReviewsButton>
            </div> : null}
