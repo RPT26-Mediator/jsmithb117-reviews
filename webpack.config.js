@@ -1,6 +1,7 @@
 module.exports = {
   entry: __dirname + '/client/src/index.jsx',
   module: {
+    mode: 'production',
     rules: [
       {
         test: [/\.jsx$/],
