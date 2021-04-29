@@ -68,6 +68,18 @@ app.get('/:listingID/averageReviewsRating', (req, res) => {
     });
 });
 
+app.post('/:listingID/reviews', (req, res) => {
+  db.insertReview(req.body)
+  .then(() => {
+    res.status(201).send();
+  })
+  .catch((err) => {
+    if (err) {
+      console.error('Error in POST/:listingID/reviews, err: ', err);
+    }
+  });
+});
+
 app.put('/reviews', (req, res) => {
   db.updateReview(req.body)
   .then((document) => {
