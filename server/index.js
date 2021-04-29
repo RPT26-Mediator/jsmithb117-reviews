@@ -13,15 +13,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.get('/:listingID', express.static(__dirname + '/../client/dist'));
 
-// this returns all the reviews
+// Reads a specified review if one is specified, else returns all reviews
 app.get('/reviews', (req, res) => {
-  // const _id = req.body ? req.body : null;
-  // console.log('_id: ', _id);
   if (req.body._id) {
     db.getOneReview(req.body._id)
-    .then((review) => {
-      res.send(review);
-    })
+    .then(review => res.send(review))
     .catch((err) => {
       if (err) {
         console.error('Error in GET Reviews with _id: ', err);
@@ -29,9 +25,7 @@ app.get('/reviews', (req, res) => {
     });
   } else {
     db.getAllReviews()
-    .then((reviews) => {
-      res.send(reviews)
-    })
+    .then(reviews => res.send(reviews))
     .catch((error) =>{
       console.log(error)
       res.end();
@@ -39,28 +33,23 @@ app.get('/reviews', (req, res) => {
   }
 });
 
-// this returns all of the reviews for a specific listing
+// Returns all reviews for a specified listing
 app.get('/:listingID/reviews', (req, res) => {
   db.getListingReviews(req.params.listingID)
-    .then((reviews) => {
-      res.send(reviews);
-    })
+    .then(reviews => res.send(reviews))
     .catch((error) =>{
       console.log(error)
       res.end();
     });
 });
 
+// Returns number of reviews for a specified listing
 app.get('/:listingID/totalReviewCount', (req, res) => {
   db.getListingTotalReviewCount(req.params.listingID)
     .then((reviews) => {
-      if(reviews < 1) {
-        res.send('No reviews')
-      } else if (reviews === 1) {
-        res.send(reviews + ' review');
-      } else {
-        res.send(reviews + ' reviews');
-      }
+      if(reviews < 1) { res.send('No reviews'); }
+      else if (reviews === 1) { res.send(reviews + ' review'); }
+      else { res.send(reviews + ' reviews'); }
     })
     .catch((error) =>{
       console.log(error)
@@ -82,6 +71,7 @@ app.get('/:listingID/averageReviewsRating', (req, res) => {
     });
 });
 
+// Creates a single review
 app.post('/reviews', (req, res) => {
   db.insertReview(req.body)
   .then(() => {
@@ -94,6 +84,7 @@ app.post('/reviews', (req, res) => {
   });
 });
 
+// Updates a single review
 app.put('/reviews', (req, res) => {
   db.updateReview(req.body)
   .then((document) => {
@@ -107,6 +98,7 @@ app.put('/reviews', (req, res) => {
   });
 });
 
+// Deletes a single review
 app.delete('/reviews', (req, res) => {
   db.deleteReview(req.body._id)
   .then(() => {
