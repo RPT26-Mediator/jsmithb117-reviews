@@ -136,6 +136,13 @@ const updateReview = (review) => {
   });
 };
 
+const deleteReview = (ID) => {
+  return new Promise((resolve, reject) => {
+    resolve(Reviews.deleteOne({ '_id' : ID }));
+    reject('Error with getting total review count.')
+  });
+};
+
 module.exports = {
   getAllReviews,
   getListingReviews,
@@ -143,5 +150,6 @@ module.exports = {
   getListingTotalReviewCount,
   runReviewSeed,
   insertReview,
-  updateReview
+  updateReview,
+  deleteReview
 };
