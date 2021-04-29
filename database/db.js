@@ -2,13 +2,16 @@ const faker = require('faker');
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/airbnbReviewsDB', { useNewUrlParser: true , useUnifiedTopology: true});
 
-let db = mongoose.connection;
+const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-  console.log('connected to db')
+db.on('connected', () => {
+  console.log('Mongoose connected to port 27017');
+});
+db.on('disconnected', () => {
+  console.log('Mongoose connection disconnected from port 27017');
 });
 
-let reviewSchema = new mongoose.Schema({
+const reviewSchema = new mongoose.Schema({
   userName: String,
   dateJoined: String,
   profilePic: String,
@@ -24,12 +27,12 @@ let reviewSchema = new mongoose.Schema({
   listingID: String
 }, { retainKeyOrder: true });
 
-let Reviews = mongoose.model('Reviews', reviewSchema);
+const Reviews = mongoose.model('Reviews', reviewSchema);
 
-let seedReviewsDB = () => {
+const seedReviewsDB = () => {
   return new Promise((resolve, reject) => {
     for (let i = 0; i < 1000; i++){
-      let newReview = new Reviews({
+      const newReview = new Reviews({
         userName: faker.name.firstName(),
         dateJoined: faker.date.month() + ' ' + faker.random.number({min:2010, max:2021}),
         profilePic: `https://airbnbpp.s3-us-west-1.amazonaws.com/${faker.random.number({min:0, max:199})}.jpg`,
@@ -50,35 +53,35 @@ let seedReviewsDB = () => {
   })
 }
 
-let refreshReviewDB = () => {
+const refreshReviewDB = () => {
   return new Promise((resolve, reject) => {
-    resolve(Reviews.deleteMany({}));
+    resolve(Reviews.deconsteMany({}));
     reject('Error with removing old data.')
   })
 }
 
-let getAllReviews = () => {
+const getAllReviews = () => {
   return new Promise((resolve, reject) => {
     resolve(Reviews.find({}).sort({ "listingID": 1 }));
     reject('Error with getting all reviews.')
   })
 }
 
-let getListingReviews = (listingID) => {
+const getListingReviews = (listingID) => {
   return new Promise((resolve, reject) => {
-    resolve(Reviews.find({}).where('listingID').equals(listingID));
+    resolve(Reviews.find({ listingID }));
     reject('Error with getting this listings reviews.')
   })
 }
 
-let getListingTotalReviewCount = (listingID) => {
+const getListingTotalReviewCount = (listingID) => {
   return new Promise((resolve, reject) => {
-    resolve(Reviews.find({'listingID' : listingID}).countDocuments());
+    resolve(Reviews.find({'listingID' : listingID }).countDocuments());
     reject('Error with getting total review count.')
   })
 }
 
-let getAverageReviewRating = (listingID) => {
+const getAverageReviewRating = (listingID) => {
   return new Promise((resolve, reject) => {
     resolve(
       Reviews.aggregate(
@@ -119,7 +122,18 @@ async function runReviewSeed() {
   }
 }
 
-module.exports = {getAllReviews, getListingReviews, getAverageReviewRating, getListingTotalReviewCount, runReviewSeed};
+const updateReview = (review) => {
+  return new Promise((resolve, reject) => {
+    resolve(Reviews.replaceOne({ _id: review._id }, review));
+    reject('Error updating a review');
+  });
+};
 
-
-
+module.exports = {
+  getAllReviews,
+  getListingReviews,
+  getAverageReviewRating,
+  getListingTotalReviewCount,
+  runReviewSeed,
+  updateReview
+};
