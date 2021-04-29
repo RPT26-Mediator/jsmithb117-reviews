@@ -15,7 +15,20 @@ app.get('/:listingID', express.static(__dirname + '/../client/dist'));
 
 // this returns all the reviews
 app.get('/reviews', (req, res) => {
-  db.getAllReviews()
+  // const _id = req.body ? req.body : null;
+  // console.log('_id: ', _id);
+  if (req.body._id) {
+    db.getOneReview(req.body._id)
+    .then((review) => {
+      res.send(review);
+    })
+    .catch((err) => {
+      if (err) {
+        console.error('Error in GET Reviews with _id: ', err);
+      }
+    });
+  } else {
+    db.getAllReviews()
     .then((reviews) => {
       res.send(reviews)
     })
@@ -23,6 +36,7 @@ app.get('/reviews', (req, res) => {
       console.log(error)
       res.end();
     });
+  }
 });
 
 // this returns all of the reviews for a specific listing
@@ -94,7 +108,7 @@ app.put('/reviews', (req, res) => {
 });
 
 app.delete('/reviews', (req, res) => {
-  db.deleteReview(req.body.ID)
+  db.deleteReview(req.body._id)
   .then(() => {
     res.status(204).send();
   })
