@@ -68,14 +68,14 @@ app.get('/:listingID/averageReviewsRating', (req, res) => {
     });
 });
 
-app.post('/:listingID/reviews', (req, res) => {
+app.post('/reviews', (req, res) => {
   db.insertReview(req.body)
   .then(() => {
     res.status(201).send();
   })
   .catch((err) => {
     if (err) {
-      console.error('Error in POST/:listingID/reviews, err: ', err);
+      console.error('Error in POST/reviews, err: ', err);
     }
   });
 });
@@ -89,6 +89,18 @@ app.put('/reviews', (req, res) => {
   .catch((err) => {
     if (err) {
       console.error('Error in PUT/reviews, err: ', err);
+    }
+  });
+});
+
+app.delete('/reviews', (req, res) => {
+  db.deleteReview(req.body.ID)
+  .then(() => {
+    res.status(204).send();
+  })
+  .catch((err) => {
+    if (err) {
+      console.error('Error in DELETE/:listingID/reviews');
     }
   });
 });
