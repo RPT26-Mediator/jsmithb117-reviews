@@ -122,6 +122,13 @@ async function runReviewSeed() {
   }
 }
 
+const insertReview = (review) => {
+  return new Promise((resolve, reject) => {
+    resolve(Reviews.create(review));
+    reject('Error inserting a review.');
+  })
+};
+
 const updateReview = (review) => {
   return new Promise((resolve, reject) => {
     resolve(Reviews.replaceOne({ _id: review._id }, review));
@@ -135,5 +142,6 @@ module.exports = {
   getAverageReviewRating,
   getListingTotalReviewCount,
   runReviewSeed,
+  insertReview,
   updateReview
 };
