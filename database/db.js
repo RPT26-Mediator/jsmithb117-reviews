@@ -136,11 +136,18 @@ const updateReview = (review) => {
   });
 };
 
-const deleteReview = (ID) => {
+const deleteReview = (_id) => {
   return new Promise((resolve, reject) => {
-    resolve(Reviews.deleteOne({ '_id' : ID }));
+    resolve(Reviews.deleteOne({ _id }));
     reject('Error with getting total review count.')
   });
+};
+
+const getOneReview = (_id) => {
+  return new Promise((resolve, reject) => {
+    resolve(Reviews.find({ _id }));
+    reject('Error with getting this listings reviews.')
+  })
 };
 
 module.exports = {
@@ -151,5 +158,6 @@ module.exports = {
   runReviewSeed,
   insertReview,
   updateReview,
-  deleteReview
+  deleteReview,
+  getOneReview
 };
