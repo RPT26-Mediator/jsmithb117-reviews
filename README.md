@@ -17,14 +17,25 @@
 
 ## Usage
 
-> Some usage instructions
+### CRUD operations:
+#### Create:
+>POST /reviews
+>>Entire review object must be in request body<br>
+>>Data must strictly conform to schema
+#### Read:
+>GET /reviews
+>>body must contain _id of review to read
+#### Update:
+>PUT /reviews
+>>Entire review object must be in request body<br>
+>>Request body must conform to schema and have _id property of object to update
+#### Delete:
+>DELETE /reviews
+>>_id must be in request body
 
 ## Requirements
 
-An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
 
-- Node 6.13.0
-- etc
 
 ## Development
 
