@@ -26,7 +26,7 @@ const generateTenMillionPrimaryRecords = () => {
         listingID: i,
       };
       store.push(record);
-      // if ten thousand records have been created, write data to a file, clear store
+      // if one thousand records have been created, write data to a file, clear store
     }
     if (i % 1000 === 0) {
       console.log(`Writing "PrimaryRecords${i - 1000}_through_${i}.json"`);
