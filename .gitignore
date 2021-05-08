@@ -26,3 +26,4 @@ node_modules/
 *.pem
 *.cer
 *.sh
+.json
