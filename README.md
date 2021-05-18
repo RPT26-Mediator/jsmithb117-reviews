@@ -64,16 +64,23 @@ SDC Team Mediator
 > value: Sequelize.INTEGER, <br>
 > listing_id: Sequelize.INTEGER, <br>
 #### Create:
->POST /reviews
+>POST /insertreview
 >>Entire review object must be in request body<br>
 >>Data must strictly conform to schema
 #### Read:
->GET /reviews
->>body must contain _id of review to read
+>GET /:listingID/reviews
+>>returns all reviews for given listingID
+
+>GET /:listingID/totalReviewCount
+>>returns an int representing the number of reviews for given listingID
+
+>GET /:listingID/averageReviewsRating
+>>returns the average review rating for a given listingID
 #### Update:
->PUT /reviews
+>PUT /reviewpostgres
 >>Entire review object must be in request body<br>
->>Request body must conform to schema and have _id property of object to update
+>>Request body must conform to schema and have id property of object to update
+>>Requires all data
 #### Delete:
 >DELETE /reviews
 >>id must be in request body
