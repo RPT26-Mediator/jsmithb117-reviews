@@ -1,16 +1,17 @@
 /* eslint-disable no-console */
 /* eslint-disable no-plusplus */
 const faker = require('faker');
-// const { Reviews } = require('./db');
 const { writeFileSync } = require('fs');
 
-const generateTenMillionPrimaryRecords = () => {
+const generateTenMillionPrimaryRecords = (min = 1, max = 10000000, increment = 10000) => {
   const startTime = Date.now();
+  let id = min;
   let store = [];
-  for (let i = 1; i <= 10000000; i++) {
+  for (let i = min; i <= max; i++) {
     const random = Math.floor(Math.random() * 21);
     for (let j = 0; j < random; j++) {
       const record = {
+        id,
         userName: faker.name.firstName(),
         dateJoined: `${faker.date.month()} ${faker.random.number({ min: 2010, max: 2021 })}`,
         profilePic: `https://rpt26-ingenuity.s3-us-west-1.amazonaws.com/instructors/${faker.random.number({ min: 1, max: 1000 })}.jpg`,
@@ -26,11 +27,12 @@ const generateTenMillionPrimaryRecords = () => {
         listingID: i,
       };
       store.push(record);
-      // if ten thousand records have been created, write data to a file, clear store
+      id++;
     }
-    if (i % 1000 === 0) {
-      console.log(`Writing "PrimaryRecords${i - 1000}_through_${i}.json"`);
-      writeFileSync(`./database/data/primaryRecords${i - 1000}_through_${i}.json`, JSON.stringify(store));
+    // if ten thousand records have been created, write data to a file, clear store
+    if (i % increment === 0) {
+      console.log(`Writing "PrimaryRecords${i - increment}_through_${i}.json"`);
+      writeFileSync(`./data/primaryRecords${i - increment}_through_${i}.json`, JSON.stringify(store));
       const endTime = Date.now();
       let millisecondsLeft = endTime - startTime;
       const minutes = Math.floor(millisecondsLeft / 60000);
@@ -43,4 +45,4 @@ const generateTenMillionPrimaryRecords = () => {
   }
 };
 
-generateTenMillionPrimaryRecords();
+generateTenMillionPrimaryRecords(1, 10000000);
