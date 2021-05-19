@@ -72,8 +72,37 @@ postgres.deleteOneReview = (id) => {
 };
 
 postgres.readAllByID = (listing_id) => {
+
   return new Promise((resolve, reject) => {
-    resolve(Review.findAll({ where: { listing_id } }));
+    resolve(Review.findAll({ where: { listing_id } })
+      .then((dbResponse) => {
+        const formattedResponse = [];
+        dbResponse.forEach((review) => {
+          const formattedReview = {
+            id: review.id,
+            listingID: review.listing_id,
+            userName: review.user_name,
+            dateJoined: review.date_joined,
+            profilePic: review.profile_pic,
+            reviewDescription: review.review_description,
+            reviewRating: {
+              cleanliness: review.cleanliness,
+              communication: review.communication,
+              checkIn: review.checkin,
+              accuracy: review.accuracy,
+              location: review.location,
+              value: review.value,
+            },
+          };
+          formattedResponse.push(formattedReview);
+        });
+        return formattedResponse;
+      })
+      .catch((err) => {
+        if (err) {
+          console.error('Error in postgres.readAllByID: ', err);
+        }
+      }));
     reject(new Error('Error in postgresReadOneByID'));
   })
 };
@@ -104,14 +133,14 @@ postgres.update = (body) => {
       date_joined: body.dateJoined,
       profile_pic: body.profilePic,
       review_description: body.reviewDescription,
-        cleanliness: body.reviewRating.cleanliness,
-        communication: body.reviewRating.communication,
-        checkin: body.reviewRating.checkIn,
-        accuracy: body.reviewRating.accuracy,
-        location: body.reviewRating.location,
-        value: body.reviewRating.value
+      cleanliness: body.reviewRating.cleanliness,
+      communication: body.reviewRating.communication,
+      checkin: body.reviewRating.checkIn,
+      accuracy: body.reviewRating.accuracy,
+      location: body.reviewRating.location,
+      value: body.reviewRating.value
     };
-    resolve(Review.update(query, {where: {id: body.id}}));
+    resolve(Review.update(query, { where: { id: body.id } }));
     reject(new Error('Error in postgres.update'));
   });
 };
