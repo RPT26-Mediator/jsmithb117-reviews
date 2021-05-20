@@ -18,7 +18,6 @@ const timeCheck = (startTime, records) => {
 
 const initCsvFile = ( async (start, end) => {
   let id = start + 1;
-  // console.log('initializing csv...');
   writer.pipe(fs.createWriteStream(`${start}.csv`));
   for (var i = start; i <= end; i++) {
     const random = Math.floor(Math.random() * 21);
@@ -55,7 +54,7 @@ const initCsvFile = ( async (start, end) => {
     try {
       await new Promise(resolve => setImmediate(resolve));
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
     if (i % 10000 === 0) {
       timeCheck(startTime, i);
@@ -63,24 +62,3 @@ const initCsvFile = ( async (start, end) => {
   }
   writer.end();
 })(0, 100);
-
-// const writeOneMillion = (numberOfMillions) => {
-//   for (let i = 0; i < numberOfMillions; i++) {
-//     console.log('i: ', i);
-//       const start = i * 1000000;
-//       const end = start + 1000000;
-//       initCsvFile(start, end);
-//   }
-//   console.log('Complete?');
-// };
-
-// writeOneMillion(10);
-
-
-
-
-
-
-
-// id|username|datejoined|profilepic|reviewdescription|reviewrating
-// 3|J|'July 2020'|http://something|This place is terrible.|"cleanliness:1,communication:1,checkin:1,accuracy:1,location:1,value:1"

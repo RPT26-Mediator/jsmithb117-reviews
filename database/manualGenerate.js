@@ -41,8 +41,7 @@ const generate = (start, end) => {
       }
       fs.appendFileSync(fileName, secondary + '\n');
   }
-  console.log('complete: ', fileName);
+  console.log('Complete: ', fileName);
 };
 
-// generate(9128164, 10000000);
 generate(10000001, 20000000);
