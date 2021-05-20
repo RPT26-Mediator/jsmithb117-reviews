@@ -9,7 +9,27 @@ const options = {
   dialect: 'postgres',
 };
 
-const postgres = new Sequelize('postgres://postgres:password@localhost:5432/sdc', options);
+const postgres = new Sequelize('postgres://postgres:password@localhost:5432/reviews', options);
+
+// const Review = postgres.define('reviews', {
+//   id: {
+//     type: Sequelize.INTEGER,
+//     autoIncrement: true,
+//     primaryKey: true,
+//   },
+//   user_name: Sequelize.STRING,
+//   date_joined: Sequelize.STRING,
+//   profile_pic: Sequelize.STRING,
+//   review_description: Sequelize.STRING,
+//   cleanliness: Sequelize.INTEGER,
+//   communication: Sequelize.INTEGER,
+//   checkin: Sequelize.INTEGER,
+//   accuracy: Sequelize.INTEGER,
+//   location: Sequelize.INTEGER,
+//   value: Sequelize.INTEGER,
+//   listing_id: Sequelize.INTEGER,
+// });
+
 
 const Review = postgres.define('reviews', {
   id: {
@@ -17,35 +37,17 @@ const Review = postgres.define('reviews', {
     autoIncrement: true,
     primaryKey: true,
   },
-  user_name: Sequelize.STRING,
-  date_joined: Sequelize.STRING,
-  profile_pic: Sequelize.STRING,
-  review_description: Sequelize.STRING,
-  cleanliness: Sequelize.INTEGER,
-  communication: Sequelize.INTEGER,
-  checkin: Sequelize.INTEGER,
-  accuracy: Sequelize.INTEGER,
-  location: Sequelize.INTEGER,
-  value: Sequelize.INTEGER,
-  listing_id: Sequelize.INTEGER,
+  "userName": Sequelize.STRING,
+  "dateJoined": Sequelize.STRING,
+  "profilePic": Sequelize.STRING,
+  "reviewDescription": Sequelize.STRING,
+  "reviewRating": Sequelize.JSON,
+  "listingID": Sequelize.INTEGER,
 });
 
 postgres.insertOneReview = (review) => {
-  const reviewObject = {
-    user_name: review.userName,
-    date_joined: review.dateJoined,
-    profile_pic: review.profilePic,
-    review_description: review.reviewDescription,
-    cleanliness: review.reviewRating.cleanliness,
-    communication: review.reviewRating.communication,
-    checkin: review.reviewRating.checkIn,
-    accuracy: review.reviewRating.accuracy,
-    location: review.reviewRating.location,
-    value: review.reviewRating.value,
-    listing_id: review.listingID,
-  };
   return new Promise((resolve, reject) => {
-    resolve(Review.create(reviewObject));
+    resolve(Review.create(review));
     reject(new Error('Error in insertOneReview'));
   })
 };
@@ -71,32 +73,12 @@ postgres.deleteOneReview = (id) => {
   });
 };
 
-postgres.readAllByID = (listing_id) => {
-
+postgres.readAllByID = (listingID) => {
   return new Promise((resolve, reject) => {
-    resolve(Review.findAll({ where: { listing_id } })
+    const query = `SELECT * FROM reviews where "listingID" = ${listingID}`;
+    resolve(postgres.query(query)
       .then((dbResponse) => {
-        const formattedResponse = [];
-        dbResponse.forEach((review) => {
-          const formattedReview = {
-            id: review.id,
-            listingID: review.listing_id,
-            userName: review.user_name,
-            dateJoined: review.date_joined,
-            profilePic: review.profile_pic,
-            reviewDescription: review.review_description,
-            reviewRating: {
-              cleanliness: review.cleanliness,
-              communication: review.communication,
-              checkIn: review.checkin,
-              accuracy: review.accuracy,
-              location: review.location,
-              value: review.value,
-            },
-          };
-          formattedResponse.push(formattedReview);
-        });
-        return formattedResponse;
+        return dbResponse[0];
       })
       .catch((err) => {
         if (err) {
@@ -107,21 +89,54 @@ postgres.readAllByID = (listing_id) => {
   })
 };
 
-postgres.getAverageReviewRating = async (listing_id) => {
-  const listings = await Review.findAll({ where: { listing_id } });
-  let sums = 0;
-  const count = listings.length;
+postgres.getAverageReviewRating = async (listingID) => {
+  const listings = await Review.findAll({ where: { listingID } });
+  let sums = {
+    cleanliness: 0,
+    communication: 0,
+    checkIn: 0,
+    accuracy: 0,
+    location: 0,
+    value: 0,
+    total: 0,
+  };
+  // Adds each entry to sums to facilitate averaging
   for (let i = 0; i < listings.length; i++) {
-    sums += listings[i].dataValues.cleanliness;
-    sums += listings[i].dataValues.communication;
-    sums += listings[i].dataValues.checkin;
-    sums += listings[i].dataValues.accuracy;
-    sums += listings[i].dataValues.location;
-    sums += listings[i].dataValues.value;
+    sums.cleanliness += listings[i].dataValues.reviewRating.cleanliness;
+    sums.communication += listings[i].dataValues.reviewRating.communication;
+    sums.checkIn += listings[i].dataValues.reviewRating.checkIn;
+    sums.accuracy += listings[i].dataValues.reviewRating.accuracy;
+    sums.location += listings[i].dataValues.reviewRating.location;
+    sums.value += listings[i].dataValues.reviewRating.value;
   }
-  const averageReviewRating = sums / 6 / count;
+  // calculate averageRating for all reviews for this listing
+  sums.total = sums.cleanliness +
+    sums.communication +
+    sums.checkIn +
+    sums.accuracy +
+    sums.location +
+    sums.value;
+  sums.total = sums.total / 6 / listings.length;
+  // calculates averages in place
+  sums.communication = sums.communication / listings.length;
+  sums.checkIn = sums.checkIn / listings.length;
+  sums.accuracy = sums.accuracy / listings.length;
+  sums.location = sums.location / listings.length;
+  sums.value = sums.value / listings.length;
+  sums.cleanliness = sums.cleanliness / listings.length;
+  // returns in the format front-end expects
   return new Promise((resolve, reject) => {
-    resolve(averageReviewRating);
+    resolve({
+      averageRating: sums.total,
+      ratings: {
+          rounded_clean: sums.cleanliness,
+          rounded_communication: sums.communication,
+          rounded_checkIn: sums.checkIn,
+          rounded_accuracy: sums.accuracy,
+          rounded_location: sums.location,
+          rounded_value: sums.value
+        }
+    });
     reject(new Error('Error in postgres.getAverageReviewRating'));
   });
 };
