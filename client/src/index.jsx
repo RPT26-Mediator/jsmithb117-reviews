@@ -35,7 +35,7 @@ class App extends React.Component {
     let listingID = url.split('/')[3];
 
     $.ajax({
-      url: `/${listingID}/reviews`,
+      url: `http://localhost:3006/${listingID}/reviews`,
       type: 'GET',
       success: (res) => {
         this.setState({
@@ -44,7 +44,7 @@ class App extends React.Component {
         })
       },
       error: (err)=>{
-        console.log(err);
+        console.error(err);
       }
     });
   }
@@ -54,7 +54,7 @@ class App extends React.Component {
     let listingID = url.split('/')[3];
 
     $.ajax({
-      url: `/${listingID}/averageReviewsRating`,
+      url: `http://localhost:3006/${listingID}/averageReviewsRating`,
       type: 'GET',
       success: (res) => {
         this.setState({
@@ -63,20 +63,18 @@ class App extends React.Component {
         })
       },
       error: (err)=>{
-        console.log(err);
+        console.error(err);
       }
     });
   }
 
   showModal() {
     if(this.state.showAllReviews) {
-      // console.log("closing review modal " + this.state.showAllReviews);
       this.setState({
         showAllReviews: false
       })
       document.body.style.overflow = 'scroll';
     } else {
-      // console.log("showing review modal " + this.state.showAllReviews);
       // collapse modal
       this.setState({
         showAllReviews: true,

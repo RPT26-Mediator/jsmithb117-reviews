@@ -15,23 +15,23 @@ const Rating = (props) => (
     width: "100%",
     }} className="ratings">
     <StyledRatingOption>{'Cleanliness '}</StyledRatingOption>
-    <ProgressBar rating={props.rating.ratings[0].rounded_clean.toFixed(1)}/>
-    <StyledRating>{props.rating.ratings[0].rounded_clean.toFixed(1)}</StyledRating>
+    <ProgressBar rating={props.rating.ratings.rounded_clean.toFixed(1)}/>
+    <StyledRating>{props.rating.ratings.rounded_clean.toFixed(1)}</StyledRating>
     <StyledRatingOption>{'Accuracy '}</StyledRatingOption>
-    <ProgressBar rating={props.rating.ratings[0].rounded_accuracy.toFixed(1)}/>
-    <StyledRating>{props.rating.ratings[0].rounded_accuracy.toFixed(1)}</StyledRating>
+    <ProgressBar rating={props.rating.ratings.rounded_accuracy.toFixed(1)}/>
+    <StyledRating>{props.rating.ratings.rounded_accuracy.toFixed(1)}</StyledRating>
     <StyledRatingOption>{'Communication '}</StyledRatingOption>
-    <ProgressBar rating={props.rating.ratings[0].rounded_communication.toFixed(1)} />
-    <StyledRating>{props.rating.ratings[0].rounded_communication.toFixed(1)}</StyledRating>
+    <ProgressBar rating={props.rating.ratings.rounded_communication.toFixed(1)} />
+    <StyledRating>{props.rating.ratings.rounded_communication.toFixed(1)}</StyledRating>
     <StyledRatingOption>{'Location '}</StyledRatingOption>
-    <ProgressBar rating={props.rating.ratings[0].rounded_location.toFixed(1)}/>
-    <StyledRating>{props.rating.ratings[0].rounded_location.toFixed(1)}</StyledRating>
+    <ProgressBar rating={props.rating.ratings.rounded_location.toFixed(1)}/>
+    <StyledRating>{props.rating.ratings.rounded_location.toFixed(1)}</StyledRating>
     <StyledRatingOption>{'Check-In '}</StyledRatingOption>
-    <ProgressBar rating={props.rating.ratings[0].rounded_checkIn.toFixed(1)}/>
-    <StyledRating>{props.rating.ratings[0].rounded_checkIn.toFixed(1)}</StyledRating>
+    <ProgressBar rating={props.rating.ratings.rounded_checkIn.toFixed(1)}/>
+    <StyledRating>{props.rating.ratings.rounded_checkIn.toFixed(1)}</StyledRating>
     <StyledRatingOption>{'Value '}</StyledRatingOption>
-    <ProgressBar rating={props.rating.ratings[0].rounded_value.toFixed(1)}/>
-    <StyledRating>{props.rating.ratings[0].rounded_value.toFixed(1)}</StyledRating>
+    <ProgressBar rating={props.rating.ratings.rounded_value.toFixed(1)}/>
+    <StyledRating>{props.rating.ratings.rounded_value.toFixed(1)}</StyledRating>
   </div>
 );
 

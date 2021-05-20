@@ -96,7 +96,6 @@ const ReviewModal = (props) => (
           </div>
           {/* reviews */}
           <AllReviews>
-            {/* {console.log(props.reviewsList[0].dateJoined, props.reviewsList[0].userName, props.reviewsList[0].reviewDescription)} */}
             <div>
               {props.filteredSearch.length !== 0 ?
                 props.filteredSearch.map((review, index)=>{
