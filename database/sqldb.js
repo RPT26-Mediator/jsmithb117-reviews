@@ -11,26 +11,6 @@ const options = {
 
 const postgres = new Sequelize('postgres://postgres:password@localhost:5432/reviews', options);
 
-// const Review = postgres.define('reviews', {
-//   id: {
-//     type: Sequelize.INTEGER,
-//     autoIncrement: true,
-//     primaryKey: true,
-//   },
-//   user_name: Sequelize.STRING,
-//   date_joined: Sequelize.STRING,
-//   profile_pic: Sequelize.STRING,
-//   review_description: Sequelize.STRING,
-//   cleanliness: Sequelize.INTEGER,
-//   communication: Sequelize.INTEGER,
-//   checkin: Sequelize.INTEGER,
-//   accuracy: Sequelize.INTEGER,
-//   location: Sequelize.INTEGER,
-//   value: Sequelize.INTEGER,
-//   listing_id: Sequelize.INTEGER,
-// });
-
-
 const Review = postgres.define('reviews', {
   id: {
     type: Sequelize.INTEGER,
