@@ -26,3 +26,5 @@ node_modules/
 *.pem
 *.cer
 *.sh
+
+newrelic.js
