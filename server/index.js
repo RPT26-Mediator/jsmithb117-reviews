@@ -23,19 +23,20 @@ const handleError = (err, res, location, status) => {
 };
 
 // Create
-app.post('/insertreview', (req, res) => {
-  postgres.insertOneReview(req.body)
-    .then((dbResponse) => {
-      res.send(dbResponse);
-    })
-    .catch((err) => {
-      handleError(err, res, 'app.post/insertreview', 500);
-    });
-});
+// app.post('/insertreview', (req, res) => {
+//   postgres.insertOneReview(req.body)
+//     .then((dbResponse) => {
+//       res.send(dbResponse);
+//     })
+//     .catch((err) => {
+//       handleError(err, res, 'app.post/insertreview', 500);
+//     });
+// });
 
 // Read all reviews for a given listingID
 app.get('/:listingID/reviews', (req, res) => {
-  postgres.readAllByID(req.params.listingID)
+  fetch(`http://54.215.82.50:80/${req.params.listingID}/reviews`)
+  // postgres.readAllByID(req.params.listingID)
     .then((dbResponse) => {
       res.send(dbResponse);
     })
@@ -46,7 +47,8 @@ app.get('/:listingID/reviews', (req, res) => {
 
 // Read number of reviews for a given listingID
 app.get('/:listingID/totalReviewCount', (req, res) => {
-  postgres.readAllByID(req.params.listingID)
+  fetch(`http://54.215.82.50:80/${req.params.listingID}/reviews`)
+  // postgres.readAllByID(req.params.listingID)
     .then((dbResponse) => {
       const reviewResponse = dbResponse.length === 0 ? 'No Reviews'
         : dbResponse.length === 1 ? '1 review'
@@ -60,6 +62,7 @@ app.get('/:listingID/totalReviewCount', (req, res) => {
 
 // Read average rating for a given listingID
 app.get('/:listingID/averageReviewsRating', (req, res) => {
+  // fetch(`http://54.215.82.50:80/${req.params.listingID}/reviews`)
   postgres.getAverageReviewRating(req.params.listingID)
     .then((functionResponse) => {
       res.send(functionResponse);
@@ -69,31 +72,31 @@ app.get('/:listingID/averageReviewsRating', (req, res) => {
     });
 });
 
-// Update
-app.put('/reviewpostgres', (req, res) => {
-  postgres.update(req.body)
-    .then((dbResponse) => {
-      res.send(dbResponse);
-    })
-    .catch((err) => {
-      handleError(err, res, 'app.put/reviewpostgres', 500);
-    });
-});
+// // Update
+// app.put('/reviewpostgres', (req, res) => {
+//   postgres.update(req.body)
+//     .then((dbResponse) => {
+//       res.send(dbResponse);
+//     })
+//     .catch((err) => {
+//       handleError(err, res, 'app.put/reviewpostgres', 500);
+//     });
+// });
 
-// Delete
-app.delete('/review', (req, res) => {
-  if (req.body.id) {
-    postgres.deleteOneReview(req.body.id)
-      .then((dbResponse) => {
-        res.send(JSON.stringify(dbResponse));
-      })
-      .catch((err) => {
-        handleError(err, res, 'app.delete/review', 500);
-      });
-  } else {
-    handleError(err, res, 'app.delete/review', 404);
-  }
-});
+// // Delete
+// app.delete('/review', (req, res) => {
+//   if (req.body.id) {
+//     postgres.deleteOneReview(req.body.id)
+//       .then((dbResponse) => {
+//         res.send(JSON.stringify(dbResponse));
+//       })
+//       .catch((err) => {
+//         handleError(err, res, 'app.delete/review', 500);
+//       });
+//   } else {
+//     handleError(err, res, 'app.delete/review', 404);
+//   }
+// });
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
