@@ -35,7 +35,7 @@ class App extends React.Component {
     let listingID = url.split('/')[3];
 
     $.ajax({
-      url: `http://54.215.82.50:80/${listingID}/reviews`,
+      url: `http://54.215.44.35:80/${listingID}/reviews`,
       type: 'GET',
       success: (res) => {
         this.setState({
@@ -54,7 +54,7 @@ class App extends React.Component {
     let listingID = url.split('/')[3];
 
     $.ajax({
-      url: `http://54.215.82.50:80/${listingID}/averageReviewsRating`,
+      url: `http://54.215.44.35/${listingID}/averageReviewsRating`,
       type: 'GET',
       success: (res) => {
         this.setState({
@@ -127,14 +127,14 @@ class App extends React.Component {
           <RatingList rating={this.state.ratings}/>
           <ReviewList reviews={this.state.reviews}/>
           {this.state.reviews.length > 6 ?
-           <div style={{paddingTop: '32px'}}>
+          <div style={{paddingTop: '32px'}}>
             <ShowAllReviewsButton
             onMouseEnter={this.hoverOverButtonColor.bind(this)}
             onMouseLeave={this.noLongerOverButtonColor.bind(this)}
             onClick={this.showModal.bind(this)} style={{color:'black',cursor:'pointer'}}>
               Show all {this.state.reviews.length} reviews
-           </ShowAllReviewsButton>
-           </div> : null}
+          </ShowAllReviewsButton>
+          </div> : null}
           {this.state.showAllReviews ?
             <ReviewModal
             rating={this.state.ratings}
