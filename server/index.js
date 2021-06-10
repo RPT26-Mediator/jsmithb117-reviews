@@ -39,7 +39,10 @@ app.get('/:listingID/reviews', (req, res) => {
   fetch(`http://54.215.82.50:80/${req.params.listingID}/reviews`)
   // postgres.readAllByID(req.params.listingID)
     .then((dbResponse) => {
-      res.send(dbResponse);
+      return dbResponse.json();
+    })
+    .then((json) => {
+      res.send(json);
     })
     .catch((err) => {
       handleError(err, res, 'app.get/reviewpostgres', 500);
@@ -48,10 +51,11 @@ app.get('/:listingID/reviews', (req, res) => {
 
 // Read number of reviews for a given listingID
 app.get('/:listingID/totalReviewCount', (req, res) => {
-  console.log('doing GET /listingID/totalReviewCount for listingID: ', req.params.listingID);
+  console.log('fetching /listingID/totalReviewCount for listingID: ', req.params.listingID);
   fetch(`http://54.215.82.50:80/${req.params.listingID}/reviews`)
   // postgres.readAllByID(req.params.listingID)
     .then((dbResponse) => {
+      console.log('totalReviewCount dbResponse: ', dbResponse);
       const reviewResponse = dbResponse.length === 0 ? 'No Reviews'
         : dbResponse.length === 1 ? '1 review'
           : `${dbResponse.length} reviews`;
@@ -64,9 +68,11 @@ app.get('/:listingID/totalReviewCount', (req, res) => {
 
 // Read average rating for a given listingID
 app.get('/:listingID/averageReviewsRating', (req, res) => {
+  console.log('logging averageReviewsRating for listingID: ', req.params.listingID);
   fetch(`http://54.215.82.50:80/${req.params.listingID}/reviews`)
 //  postgres.getAverageReviewRating(req.params.listingID)
     .then((functionResponse) => {
+      console.log('averageReviewsRating functionResponse: ', functionResponse);
       res.send(functionResponse);
     })
     .catch((err) => {
