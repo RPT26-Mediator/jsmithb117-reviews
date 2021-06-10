@@ -14,7 +14,7 @@ app.use(cors());
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/:listingID', express.static(`${__dirname}/../client/dist`));
+app.use(express.static(`${__dirname}/../client/dist`));
 
 const handleError = (err, res, location, status) => {
   newRelic.noticeError(err);

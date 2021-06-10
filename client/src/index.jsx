@@ -35,7 +35,7 @@ class App extends React.Component {
     let listingID = url.split('/')[3];
 
     $.ajax({
-      url: `http://localhost:3006/${listingID}/reviews`,
+      url: `http://54.215.82.50:80/${listingID}/reviews`,
       type: 'GET',
       success: (res) => {
         this.setState({
@@ -54,7 +54,7 @@ class App extends React.Component {
     let listingID = url.split('/')[3];
 
     $.ajax({
-      url: `http://localhost:3006/${listingID}/averageReviewsRating`,
+      url: `http://54.215.82.50:80/${listingID}/averageReviewsRating`,
       type: 'GET',
       success: (res) => {
         this.setState({
