@@ -36,8 +36,8 @@ const handleError = (err, res, location, status) => {
 
 // Read all reviews for a given listingID
 app.get('/:listingID/reviews', (req, res) => {
-  fetch(`http://54.215.82.50:80/${req.params.listingID}/reviews`)
-  // postgres.readAllByID(req.params.listingID)
+    fetch(`http://54.215.82.50:80/${req.params.listingID}/reviews`)
+//    postgres.getAverageReviewRating(req.params.listingID)
     .then((dbResponse) => {
       return dbResponse.json();
     })
@@ -55,10 +55,13 @@ app.get('/:listingID/totalReviewCount', (req, res) => {
   fetch(`http://54.215.82.50:80/${req.params.listingID}/reviews`)
   // postgres.readAllByID(req.params.listingID)
     .then((dbResponse) => {
-      console.log('totalReviewCount dbResponse: ', dbResponse);
-      const reviewResponse = dbResponse.length === 0 ? 'No Reviews'
-        : dbResponse.length === 1 ? '1 review'
-          : `${dbResponse.length} reviews`;
+      return dbResponse.json();
+    })
+    .then((json) => {
+      console.log('totalReviewCount json: ', json);
+      const reviewResponse = json.length === 0 ? 'No Reviews'
+        : json.length === 1 ? '1 review'
+          : `${json.length} reviews`;
       res.send(reviewResponse);
     })
     .catch((err) => {
@@ -68,13 +71,16 @@ app.get('/:listingID/totalReviewCount', (req, res) => {
 
 // Read average rating for a given listingID
 app.get('/:listingID/averageReviewsRating', (req, res) => {
-  console.log('logging averageReviewsRating for listingID: ', req.params.listingID);
-  fetch(`http://54.215.82.50:80/${req.params.listingID}/reviews`)
-//  postgres.getAverageReviewRating(req.params.listingID)
-    .then((functionResponse) => {
-      console.log('averageReviewsRating functionResponse: ', functionResponse);
-      res.send(functionResponse);
+//  console.log('logging averageReviewsRating for listingID: ', req.params.listingID);
+//  fetch(`http://54.215.82.50:80/${req.params.listingID}/reviews`)
+  postgres.getAverageReviewRating(req.params.listingID)
+    .then((dbResponse) => {
+//      return dbResponse.json();
+      res.send(dbResponse);
     })
+//    .then((json) => {
+//      res.send(json);
+//    })
     .catch((err) => {
       handleError(err, res, 'app.get/:listingID/averageReviewsRating', 500);
     });
