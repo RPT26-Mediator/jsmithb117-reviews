@@ -10,6 +10,7 @@
 // };
 
 // const postgres = new Sequelize('postgres://postgres:password@localhost:5432/reviews', options);
+const fetch = require('node-fetch');
 const postgres = {};
 
 // const Review = postgres.define('reviews', {
@@ -71,11 +72,21 @@ const postgres = {};
 // };
 
 postgres.getAverageReviewRating = async (listingID) => {
-  const listings = await fetch(`http://54.215.82.50:80/${req.params.listingID}/reviews`)
+  console.log('getting average Review Ratings');
+  let listings = await fetch(`http://54.215.82.50:80/${listingID}/reviews`)
+    .then((dbResponse) => {
+//    console.log('listings1: ', listings);
+    return dbResponse.json();
+    })
+    .then((json) => {
+ //     console.log('listings2: ', listings);
+      return json;
+    })
     .catch((err) => {
       console.error('Error in postgres.getAverageReviewRating: ', err);
     });
   // const listings = await Review.findAll({ where: { listingID } });
+//  console.log('listings3: ', listings);
   let sums = {
     cleanliness: 0,
     communication: 0,
@@ -87,12 +98,13 @@ postgres.getAverageReviewRating = async (listingID) => {
   };
   // Adds each entry to sums to facilitate averaging
   for (let i = 0; i < listings.length; i++) {
-    sums.cleanliness += listings[i].dataValues.reviewRating.cleanliness;
-    sums.communication += listings[i].dataValues.reviewRating.communication;
-    sums.checkIn += listings[i].dataValues.reviewRating.checkIn;
-    sums.accuracy += listings[i].dataValues.reviewRating.accuracy;
-    sums.location += listings[i].dataValues.reviewRating.location;
-    sums.value += listings[i].dataValues.reviewRating.value;
+    console.log ('listings[i]: ', listings[i]);
+    sums.cleanliness += listings[i].reviewRating.cleanliness;
+    sums.communication += listings[i].reviewRating.communication;
+    sums.checkIn += listings[i].reviewRating.checkIn;
+    sums.accuracy += listings[i].reviewRating.accuracy;
+    sums.location += listings[i].reviewRating.location;
+    sums.value += listings[i].reviewRating.value;
   }
   // calculate averageRating for all reviews for this listing
   sums.total = sums.cleanliness +
