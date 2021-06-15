@@ -1,11 +1,11 @@
-import React from "react";
+import React, { lazy } from "react";
 import ReactDOM from "react-dom";
-import Rating from './components/Rating.jsx';
-import Reviews from './components/Reviews.jsx';
-import ReviewList from './components/ReviewList.jsx';
-import RatingList from './components/RatingList.jsx';
-import TotalRating from './components/TotalRating.jsx';
-import ReviewModal from "./components/Modal/ReviewModal.jsx";
+const Rating = lazy(() => import('./components/Rating.jsx'));
+const Reviews = lazy(() => import('./components/Reviews.jsx'));
+const ReviewList = lazy(() => import('./components/ReviewList.jsx'));
+const RatingList = lazy(() => import('./components/RatingList.jsx'));
+const TotalRating = lazy(() => import('./components/TotalRating.jsx'));
+const ReviewModal = lazy(() => import("./components/Modal/ReviewModal.jsx"));
 import $ from 'jquery';
 import { BrowserRouter } from 'react-router-dom';
 import styled from 'styled-components';
