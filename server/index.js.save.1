@@ -36,13 +36,10 @@ const handleError = (err, res, location, status) => {
 
 // Read all reviews for a given listingID
 app.get('/:listingID/reviews', (req, res) => {
-    fetch(`http://54.215.82.50:80/${req.params.listingID}/reviews`)
-//    postgres.getAverageReviewRating(req.params.listingID)
+  fetch(`http://54.215.82.50:80/${req.params.listingID}/reviews`)
+  // postgres.readAllByID(req.params.listingID)
     .then((dbResponse) => {
-      return dbResponse.json();
-    })
-    .then((json) => {
-      res.send(json);
+      res.send(dbResponse);
     })
     .catch((err) => {
       handleError(err, res, 'app.get/reviewpostgres', 500);
@@ -51,18 +48,13 @@ app.get('/:listingID/reviews', (req, res) => {
 
 // Read number of reviews for a given listingID
 app.get('/:listingID/totalReviewCount', (req, res) => {
-  console.log('fetching /listingID/totalReviewCount for listingID: ', req.params.listingID);
+  console.log('doing GET /listingID/totalReviewCount for listingID: ', req.params.listingID)
   fetch(`http://54.215.82.50:80/${req.params.listingID}/reviews`)
   // postgres.readAllByID(req.params.listingID)
     .then((dbResponse) => {
-      return dbResponse.json();
-    })
-    .then((json) => {
-      console.log('totalReviewCount json: ', json);
-      const reviewResponse = json.length === 0 ? 'No Reviews'
-        : json.length === 1 ? '1 review'
-          : `${json.length} reviews`;
-      res.send(reviewResponse);
+      const reviewResponse = dbResponse.length === 0 ? 'No Reviews'
+        : dbResponse.length === 1 ? '1 review'
+          : `${dbResponse.length} reviews`;      res.send(reviewResponse);
     })
     .catch((err) => {
       handleError(err, 'app.get/:listingID/totalReviewCount', 500);
@@ -71,16 +63,11 @@ app.get('/:listingID/totalReviewCount', (req, res) => {
 
 // Read average rating for a given listingID
 app.get('/:listingID/averageReviewsRating', (req, res) => {
-//  console.log('logging averageReviewsRating for listingID: ', req.params.listingID);
-//  fetch(`http://54.215.82.50:80/${req.params.listingID}/reviews`)
+  // fetch(`http://54.215.82.50:80/${req.params.listingID}/reviews`)
   postgres.getAverageReviewRating(req.params.listingID)
-    .then((dbResponse) => {
-//      return dbResponse.json();
-      res.send(dbResponse);
+    .then((functionResponse) => {
+      res.send(functionResponse);
     })
-//    .then((json) => {
-//      res.send(json);
-//    })
     .catch((err) => {
       handleError(err, res, 'app.get/:listingID/averageReviewsRating', 500);
     });

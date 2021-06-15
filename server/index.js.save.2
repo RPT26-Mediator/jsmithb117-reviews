@@ -6,7 +6,7 @@ const compression = require('compression');
 const cors = require('cors');
 const postgres = require('../database/sqldb.js');
 const newRelic = require('newrelic');
-const fetch = require('node-fetch');
+const fetch = require('node-fetch');getAverageReviewRating
 
 const PORT = 3006;
 const app = express();
@@ -71,16 +71,15 @@ app.get('/:listingID/totalReviewCount', (req, res) => {
 
 // Read average rating for a given listingID
 app.get('/:listingID/averageReviewsRating', (req, res) => {
-//  console.log('logging averageReviewsRating for listingID: ', req.params.listingID);
+  console.log('logging averageReviewsRating for listingID: ', req.params.listingID);
 //  fetch(`http://54.215.82.50:80/${req.params.listingID}/reviews`)
   postgres.getAverageReviewRating(req.params.listingID)
     .then((dbResponse) => {
-//      return dbResponse.json();
-      res.send(dbResponse);
+      return dbResponse.json();
     })
-//    .then((json) => {
-//      res.send(json);
-//    })
+    .then((json) => {
+      res.send(json);
+    })
     .catch((err) => {
       handleError(err, res, 'app.get/:listingID/averageReviewsRating', 500);
     });
