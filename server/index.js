@@ -51,14 +51,14 @@ app.get('/:listingID/reviews', (req, res) => {
 
 // Read number of reviews for a given listingID
 app.get('/:listingID/totalReviewCount', (req, res) => {
-  console.log('fetching /listingID/totalReviewCount for listingID: ', req.params.listingID);
+  // console.log('fetching /listingID/totalReviewCount for listingID: ', req.params.listingID);
   fetch(`http://54.215.82.50:80/${req.params.listingID}/reviews`)
   // postgres.readAllByID(req.params.listingID)
     .then((dbResponse) => {
       return dbResponse.json();
     })
     .then((json) => {
-      console.log('totalReviewCount json: ', json);
+      // console.log('totalReviewCount json: ', json);
       const reviewResponse = json.length === 0 ? 'No Reviews'
         : json.length === 1 ? '1 review'
           : `${json.length} reviews`;
