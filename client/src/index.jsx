@@ -178,4 +178,5 @@ const ShowAllReviewsButton = styled.button `
   color: rgb(34, 34, 34);
 `;
 
-ReactDOM.render(<App />, document.getElementById('Review'));
+// ReactDOM.render(<App />, document.getElementById('Review')); //moved to client.js
+export default App;

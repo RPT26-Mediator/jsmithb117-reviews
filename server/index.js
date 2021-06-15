@@ -8,7 +8,7 @@ const postgres = require('../database/sqldb.js');
 const newRelic = require('newrelic');
 const fetch = require('node-fetch');
 
-const PORT = 3006;
+const PORT = 3016;
 const app = express();
 
 app.use(cors());
