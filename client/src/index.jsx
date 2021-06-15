@@ -1,4 +1,4 @@
-import React, { lazy } from "react";
+import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom";
 const Rating = lazy(() => import('./components/Rating.jsx'));
 const Reviews = lazy(() => import('./components/Reviews.jsx'));
@@ -111,6 +111,10 @@ class App extends React.Component {
     })
   }
 
+  renderLoading() {
+    return <p>Loading</p>
+  }
+
   render() {
       return (
       <div className="App" style={{
@@ -123,32 +127,42 @@ class App extends React.Component {
         marginLeft: "10%",
         marginRight: "10%"
         }}>
-          <TotalRating finalRating={this.state.avgRating.toFixed(2)} totalReviews={this.state.reviews.length}/>
-          <RatingList rating={this.state.ratings}/>
-          <ReviewList reviews={this.state.reviews}/>
-          {this.state.reviews.length > 6 ?
-          <div style={{paddingTop: '32px'}}>
-            <ShowAllReviewsButton
-            onMouseEnter={this.hoverOverButtonColor.bind(this)}
-            onMouseLeave={this.noLongerOverButtonColor.bind(this)}
-            onClick={this.showModal.bind(this)} style={{color:'black',cursor:'pointer'}}>
-              Show all {this.state.reviews.length} reviews
-          </ShowAllReviewsButton>
-          </div> : null}
-          {this.state.showAllReviews ?
-            <ReviewModal
-            rating={this.state.ratings}
-            showingModal={this.state.showAllReviews}
-            finalRating={this.state.avgRating}
-            totalReviews={this.state.reviews.length}
-            reviewsList={this.state.reviews}
-            closeModal={this.showModal.bind(this)}
-            handleKeyDown={this.handleKeyDown.bind(this)}
-            searchTerm={this.state.searchTerm}
-            searchTermDisplay={this.state.searchContainer}
-            searchInput={this.editSearch.bind(this)}
-            filteredSearch={this.state.modalFilteredReviews}/>
-            : null}
+          <Suspense fallback = {this.renderLoading()}>
+            <TotalRating finalRating={this.state.avgRating.toFixed(2)} totalReviews={this.state.reviews.length}/>
+          </Suspense>
+          <Suspense fallback = {this.renderLoading()}>
+            <RatingList rating={this.state.ratings}/>
+          </Suspense>
+          <Suspense fallback = {this.renderLoading()}>
+            <ReviewList reviews={this.state.reviews}/>
+          </Suspense>
+          <Suspense fallback = {this.renderLoading()}>
+            {this.state.reviews.length > 6 ?
+            <div style={{paddingTop: '32px'}}>
+              <ShowAllReviewsButton
+              onMouseEnter={this.hoverOverButtonColor.bind(this)}
+              onMouseLeave={this.noLongerOverButtonColor.bind(this)}
+              onClick={this.showModal.bind(this)} style={{color:'black',cursor:'pointer'}}>
+                Show all {this.state.reviews.length} reviews
+            </ShowAllReviewsButton>
+            </div> : null}
+          </Suspense>
+          <Suspense fallback = {this.renderLoading()}>
+            {this.state.showAllReviews ?
+              <ReviewModal
+              rating={this.state.ratings}
+              showingModal={this.state.showAllReviews}
+              finalRating={this.state.avgRating}
+              totalReviews={this.state.reviews.length}
+              reviewsList={this.state.reviews}
+              closeModal={this.showModal.bind(this)}
+              handleKeyDown={this.handleKeyDown.bind(this)}
+              searchTerm={this.state.searchTerm}
+              searchTermDisplay={this.state.searchContainer}
+              searchInput={this.editSearch.bind(this)}
+              filteredSearch={this.state.modalFilteredReviews}/>
+              : null}
+          </Suspense>
           <div style={{borderBottomWidth: "1px", borderBottomStyle:"solid", color:"#DDDDDD",paddingTop: "48px"}}></div>
         </div>
       );
