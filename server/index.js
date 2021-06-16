@@ -23,6 +23,10 @@ const handleError = (err, res, location, status) => {
   res.sendStatus(status);
 };
 
+app.get('/serverName', (req, res) => {
+  res.send('thisServerName');
+});
+
 // Create
 // app.post('/insertreview', (req, res) => {
 //   postgres.insertOneReview(req.body)
