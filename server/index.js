@@ -7,6 +7,12 @@ const cors = require('cors');
 const postgres = require('../database/sqldb.js');
 const newRelic = require('newrelic');
 const fetch = require('node-fetch');
+const redis = require('redis');
+
+const client = redis.createClient();
+const getRedis = client.get.bind(client);
+const setRedis = client.set.bind(client);
+const flushRedis = client.flushall.bind(client);
 
 const SERVERNAME = 'Reviews2';
 const PORT = 3006;
@@ -17,43 +23,70 @@ app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Redis client error handling
+client.on('error', (err) => {
+  console.error(err);
+});
+
 const handleError = (err, res, location, status) => {
   newRelic.noticeError(err);
   console.error(`Error in ${location}: `, err);
   res.sendStatus(status);
 };
 
+app.get('/redis', (req, res) => {
+  flushRedis();
+  res.send('Flushed redis cache');
+});
+
 app.get('/serverName', (req, res) => {
   res.set('X-Backend-Server', SERVERNAME);
   res.send(SERVERNAME);
 });
-app.use('/:listingID', express.static(`${__dirname}/../client/dist`));
-
-// Create
-// app.post('/insertreview', (req, res) => {
-//   postgres.insertOneReview(req.body)
-//     .then((dbResponse) => {
-//       res.send(dbResponse);
-//     })
-//     .catch((err) => {
-//       handleError(err, res, 'app.post/insertreview', 500);
-//     });
-// });
 
 // Read all reviews for a given listingID
 app.get('/:listingID/reviews', (req, res) => {
-    fetch(`http://54.215.82.50:80/${req.params.listingID}/reviews`)
-//    postgres.getAverageReviewRating(req.params.listingID)
-    .then((dbResponse) => {
-      return dbResponse.json();
-    })
-    .then((json) => {
-      res.set('X-Backend-Server', SERVERNAME);
-      res.send(json);
-    })
-    .catch((err) => {
-      handleError(err, res, 'app.get/reviewpostgres', 500);
-    });
+  const { listingID } = req.params;
+  getRedis(listingID, (error, reply) => {
+    if (error) {
+      res.status(500).send(`Redis error: ${err}`);
+      console.error('Redis Error: ', err);
+    }
+    if (reply) {
+console.log('got stuff from redis');
+      res.send(JSON.parse(reply));
+    } else {
+      fetch(`http://54.215.82.50:80/${req.params.listingID}/reviews`)
+        .then((dbResponse) => {
+          return dbResponse.json();
+        })
+        .then((json) => {
+          res.set('X-Backend-Server', SERVERNAME);
+          res.send(json);
+          setRedis(listingID, JSON.stringify(json));
+console.log('set stuff in redis')
+        })
+        .catch((err) => {
+          handleError(err, res, 'app.get/reviewpostgres', 500);
+        });
+    }
+  });
+
+
+//  fetch(`http://54.215.82.50:80/${req.params.listingID}/reviews`)
+//    .then((dbResponse) => {
+//      return dbResponse.json();
+//    })
+//    .then((json) => {
+//      res.set('X-Backend-Server', SERVERNAME);
+//      res.send(json);
+//    })
+//    .catch((err) => {
+//      handleError(err, res, 'app.get/reviewpostgres', 500);
+//    });
+
+
+
 });
 
 // Read number of reviews for a given listingID
@@ -118,6 +151,7 @@ app.get('/:listingID/averageReviewsRating', (req, res) => {
 //     handleError(err, res, 'app.delete/review', 404);
 //   }
 // });
+app.use('/:listingID', express.static(`${__dirname}/../client/dist`));
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
