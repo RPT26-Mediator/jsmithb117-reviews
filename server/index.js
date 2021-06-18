@@ -8,6 +8,7 @@ const postgres = require('../database/sqldb.js');
 const newRelic = require('newrelic');
 const fetch = require('node-fetch');
 
+const SERVERNAME = 'Reviews2';
 const PORT = 3006;
 const app = express();
 
@@ -15,7 +16,6 @@ app.use(cors());
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/:listingID', express.static(`${__dirname}/../client/dist`));
 
 const handleError = (err, res, location, status) => {
   newRelic.noticeError(err);
@@ -24,8 +24,10 @@ const handleError = (err, res, location, status) => {
 };
 
 app.get('/serverName', (req, res) => {
-  res.send('thisServerName');
+  res.set('X-Backend-Server', SERVERNAME);
+  res.send(SERVERNAME);
 });
+app.use('/:listingID', express.static(`${__dirname}/../client/dist`));
 
 // Create
 // app.post('/insertreview', (req, res) => {
@@ -46,6 +48,7 @@ app.get('/:listingID/reviews', (req, res) => {
       return dbResponse.json();
     })
     .then((json) => {
+      res.set('X-Backend-Server', SERVERNAME);
       res.send(json);
     })
     .catch((err) => {
