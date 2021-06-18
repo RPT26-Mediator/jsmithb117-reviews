@@ -43,7 +43,7 @@ app.get('/redis', (req, res) => {
   getRedisAsync('stuff').then(function (resp) { console.log('response: ', resp) });
 
   flushRedis();
-  res.set('X-Backend-Server', SERVERNAME));
+  res.set('X-Backend-Server', SERVERNAME);
   res.send('Flushed redis cache');
   console.log('flushed redis');
 });
