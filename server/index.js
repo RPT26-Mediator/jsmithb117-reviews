@@ -14,7 +14,7 @@ const getRedis = client.get.bind(client);
 const setRedis = client.set.bind(client);
 const flushRedis = client.flushall.bind(client);
 
-const SERVERNAME = 'Reviews2';
+const SERVERNAME = 'Reviews3';
 const PORT = 3006;
 const app = express();
 
@@ -49,11 +49,12 @@ app.get('/:listingID/reviews', (req, res) => {
   const { listingID } = req.params;
   getRedis(listingID, (error, reply) => {
     if (error) {
+      res.set('X-Backend-Server', SERVERNAME);
       res.status(500).send(`Redis error: ${err}`);
       console.error('Redis Error: ', err);
     }
     if (reply) {
-console.log('got stuff from redis');
+      res.set('X-Backend-Server', SERVERNAME);
       res.send(JSON.parse(reply));
     } else {
       fetch(`http://54.215.82.50:80/${req.params.listingID}/reviews`)
@@ -64,7 +65,6 @@ console.log('got stuff from redis');
           res.set('X-Backend-Server', SERVERNAME);
           res.send(json);
           setRedis(listingID, JSON.stringify(json));
-console.log('set stuff in redis')
         })
         .catch((err) => {
           handleError(err, res, 'app.get/reviewpostgres', 500);
