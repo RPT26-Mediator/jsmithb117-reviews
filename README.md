@@ -1,10 +1,10 @@
 # Project Name
 
-SDC Team Mediator
+System Design Capstone - Team Mediator
 
 ## Related Projects
-
-  - https://github.com/teamName/repo
+  This repo is the Reviews microservice that is part of a larger project linked below.
+  - https://github.com/RPT26-Mediator
 
 
 ## Table of Contents
@@ -93,7 +93,7 @@ SDC Team Mediator
 
 ### Installing Dependencies
 
-From within the root directory:
+From the root directory:
 
 ```sh
 npm install
