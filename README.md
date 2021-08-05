@@ -86,7 +86,7 @@ SDC Team Mediator
 >>id must be in request body
 
 ## Requirements
-
+>>This repo is the reviews service which is part of a larger project.  It will work as a standalone service, but is intended to be used by the Proxy  to also render all other associated services.
 
 
 ## Development
