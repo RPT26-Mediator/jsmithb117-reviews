@@ -1,4 +1,4 @@
-# System Design Capstone - Mediator
+# Mediator
 Reviews service
 
 
