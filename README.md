@@ -1,6 +1,6 @@
-# Project Name
+# System Design Capstone - Mediator
+Reviews service
 
-System Design Capstone - Team Mediator
 
 ## Related Projects
   This repo is the Reviews microservice that is part of a larger project linked below.
